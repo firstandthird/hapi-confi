@@ -1,0 +1,11 @@
+connection:
+  port: 8080
+
+logging:
+  reporters:
+    console:
+      events:
+        log: '*'
+
+plugins:
+  hapi-views:

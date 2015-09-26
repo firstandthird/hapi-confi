@@ -1,0 +1,35 @@
+{
+  "name": "hapi-confi",
+  "version": "0.0.1",
+  "description": "Set up hapi from a config file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/firstandthird/hapi-confi.git"
+  },
+  "keywords": [
+    "hapi",
+    "config",
+    "confi"
+  ],
+  "author": "Greg Allen <code@firstandthird.com> (http://firstandthird.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/firstandthird/hapi-confi/issues"
+  },
+  "homepage": "https://github.com/firstandthird/hapi-confi#readme",
+  "dependencies": {
+    "async": "^1.4.2",
+    "confi": "^0.8.0",
+    "lodash": "^3.10.1"
+  },
+  "devDependencies": {
+    "good": "^6.4.0",
+    "good-console": "^5.1.0",
+    "hapi": "^10.1.0",
+    "hapi-views": "0.0.1"
+  }
+}
