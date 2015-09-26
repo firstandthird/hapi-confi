@@ -16,7 +16,7 @@ module.exports = function(Hapi, options, done) {
     options = {};
   }
 
-  options.configPath = options.configPath || cwd;
+  options.configPath = options.configPath || cwd + '/conf';
 
   async.waterfall([
     //read config
