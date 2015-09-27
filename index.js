@@ -85,7 +85,7 @@ module.exports = function(Hapi, options, done) {
         return done(null, server, config);
       }
 
-      async.forEachOf(config.authPlugins, function(value, key, done) {
+      async.forEachOfSeries(config.authPlugins, function(value, key, done) {
         if (typeof value === 'undefined' || value === null) {
           value = {};
         }
@@ -117,7 +117,7 @@ module.exports = function(Hapi, options, done) {
         return done(null, server, config);
       }
 
-      async.forEachOf(config.plugins, function(value, key, done) {
+      async.forEachOfSeries(config.plugins, function(value, key, done) {
         if (typeof value === 'undefined' || value === null) {
           value = {};
         }
