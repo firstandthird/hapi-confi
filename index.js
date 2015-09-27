@@ -133,6 +133,21 @@ module.exports = function(Hapi, options, done) {
       }, function(err) {
         done(err, server, config);
       });
+    },
+    function(server, config, done) {
+      if (config.views) {
+
+        _.forIn(config.views.engines, function(engine, ext) {
+          if (typeof engine === 'string') {
+            config.views.engines[ext] = requireCwd(engine);
+          }
+        });
+        server.views(config.views);
+        server.log(['hapi-confi'], { message: 'views configured' });
+
+      }
+
+      done(null, server, config);
     }
 
   ], done);
