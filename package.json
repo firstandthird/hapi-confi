@@ -1,6 +1,6 @@
 {
   "name": "hapi-confi",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Set up hapi from a config file",
   "main": "index.js",
   "scripts": {
