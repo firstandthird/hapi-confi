@@ -6,6 +6,9 @@ var path = require('path');
 var cwd = process.cwd();
 
 var requireCwd = function(req) {
+  if (req[0] == '.') {
+    return require(path.join(cwd, req));
+  }
   return require(path.join(cwd, 'node_modules', req));
 };
 
@@ -43,7 +46,7 @@ module.exports = function(Hapi, options, done) {
 
       server.connection(config.connection);
 
-      server.app.config = config;
+      server.settings.app = config;
 
       done(null, server, config);
 
