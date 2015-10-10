@@ -125,7 +125,7 @@ module.exports = function(Hapi, options, done) {
           value = {};
         }
         if (value === false || value._enabled === false) {
-          return;
+          return done();
         }
         delete value._enabled;
         server.log(['hapi-confi'], { message: 'plugin loaded', plugin: key, options: value });
