@@ -34,17 +34,19 @@ module.exports = function(Hapi, options, done) {
     function(config, done) {
       var serverConfig = _.cloneDeep(config.server || {});
 
+      var connection = config.connection || {};
+
       if (serverConfig.cache) {
         serverConfig.cache.engine = requireCwd(serverConfig.cache.engine);
       }
 
       if (process.env.PORT) {
-        config.connection.port = process.env.PORT;
+        connection.port = process.env.PORT;
       }
 
       var server = new Hapi.Server(serverConfig);
 
-      server.connection(config.connection);
+      server.connection(connection);
 
       server.settings.app = config;
 
