@@ -1,4 +1,10 @@
 
+0.0.7 / 2015-10-27
+==================
+
+  * if strategies.options.provider.profile is a string, treat as server method
+  * added options.before hook to be able to change server/config before processing
+
 0.0.6 / 2015-10-11
 ==================
 
