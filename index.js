@@ -120,6 +120,12 @@ module.exports = function(Hapi, options, done) {
     function(server, config, done) {
       _.forIn(config.strategies, function(value, name) {
         server.log(['hapi-confi'], { message: 'strategy loaded', strategy: name, options: value });
+        var profileFn = _.get(value, 'options.provider.profile');
+        if (typeof profileFn === 'string') {
+          value.options.provider.profile = function(credentials, params, get, callback) {
+            server.methods[profileFn](credentials, params, get, callback);
+          };
+        }
         server.auth.strategy(name, value.scheme, value.mode, value.options);
       });
       done(null, server, config);
