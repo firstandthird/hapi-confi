@@ -53,6 +53,14 @@ module.exports = function(Hapi, options, done) {
       done(null, server, config);
 
     },
+    //before hook
+    function(server, config, done) {
+      if (typeof options.before !== 'function') {
+        return done(null, server, config);
+      }
+
+      options.before(server, config, done);
+    },
     //set up logging
     function(server, config, done) {
       if (!config.logging) {
