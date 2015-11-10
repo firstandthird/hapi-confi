@@ -1,4 +1,9 @@
 
+0.1.0 / 2015-11-10
+==================
+
+  * fixed requireCwd to fall back to normal require if dep doesn't start with '.'
+
 0.0.7 / 2015-10-27
 ==================
 
