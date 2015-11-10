@@ -9,7 +9,7 @@ var requireCwd = function(req) {
   if (req[0] == '.') {
     return require(path.join(cwd, req));
   }
-  return require(path.join(cwd, 'node_modules', req));
+  return require(req);
 };
 
 module.exports = function(Hapi, options, done) {
