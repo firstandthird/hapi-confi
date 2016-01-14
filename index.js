@@ -20,13 +20,16 @@ module.exports = function(Hapi, options, done) {
   }
 
   options.configPath = options.configPath || cwd + '/conf';
-
   async.waterfall([
     //read config
     function(done) {
-      var config = confi({
+      var confiOptions = {
         path: options.configPath
-      });
+      }
+      if (options.env){
+        confiOptions.env = options.env
+      }
+      var config = confi(confiOptions);
 
       done(null, config);
     },
