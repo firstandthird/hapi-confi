@@ -2,7 +2,6 @@ var hapiconfi = require('../');
 var Hapi = require('hapi');
 var code = require('code');
 var lab = exports.lab = require('lab').script();
-var _ = require('lodash')
 
 lab.test('tests default ', (done)=>{
   hapiconfi(Hapi, {   configPath: __dirname + '/conf'}, function(err,server, config){
