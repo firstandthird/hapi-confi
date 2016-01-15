@@ -11,3 +11,33 @@ subobject : '{{analytics}}'
 math1: '{{ 20+30}}'
 js1 : '{{ [1,2,3].join(",")}}'
 apikey: ""
+logging:
+  reporters:
+    console:
+      events:
+        log: '*'
+authPlugins:
+  hapi-auth-cookie:
+
+plugins:
+  hapi-views:
+
+views:
+  engines:
+    html: 'handlebars'
+before:
+  test:
+auth:
+  account: '/account/'
+  url: '/login/?redirect=/auth?next='
+  logoutRedirectUrl: '/?logout&redirect=/'
+strategies:
+  session:
+    scheme: 'cookie'
+    mode: 'try'
+    options:
+      password: 'asdf'
+      cookie: 'li-sid'
+      isSecure: false
+      clearInvalid: true
+      appendNext: true
