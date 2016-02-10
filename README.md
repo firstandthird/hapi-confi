@@ -2,7 +2,7 @@
 
   Set up and run a hapi server using yaml/json files from a config directory
 
- ### Installation
+### Installation
 
 `npm install hapi-confi`
 
