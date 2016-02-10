@@ -27,7 +27,7 @@ hapiConfi(Hapi, options, function(err, server, config) {
 
   - `before`  - list of event handlers to fire on a 'before' event
   - `logging` - list of reporters to use from 'good.js', the hapi logging library
-  -  `reporters` -  any 'good-' reporters to use for logging (e.g. good-console)
+    -  `reporters` -  any 'good-' reporters to use for logging (e.g. good-console)
   - `authPlugins`  - list of auth plugins
   - `strategies`  - list of strategies of the form:
     - `provider` 
