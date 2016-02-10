@@ -37,6 +37,6 @@ hapiConfi(Hapi, options, function(err, server, config) {
       - `profile` - 
   - `plugins`  - list of hapi plugins that will be added to your server through hapi.register()
     - `options` - options to pass when the plugin is registered
- - `views`  - list of view engines to register with hapi.views().
-    - `engines` - list of modules to import and pass to view
+ - `views`  - list of view engines to register with hapi.views()
+  - `engines` - list of modules to import and pass to view
   
