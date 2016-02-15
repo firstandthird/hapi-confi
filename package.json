@@ -4,7 +4,8 @@
   "description": "Set up hapi from a config file",
   "main": "index.js",
   "scripts": {
-    "test": "lab -t 100 -e \"\" test"
+    "test": "lab -t 100 -e \"\" test",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -23,11 +24,15 @@
   "homepage": "https://github.com/firstandthird/hapi-confi#readme",
   "dependencies": {
     "async": "^1.4.2",
-    "confi": "^1.0.0",
+    "confi": "^1.1.0",
     "lodash": "^3.10.1"
   },
   "devDependencies": {
     "code": "^2.1.0",
+    "eslint": "^1.10.3",
+    "eslint-config-airbnb": "^5.0.1",
+    "eslint-config-firstandthird": "^1.4.0",
+    "eslint-plugin-react": "^3.16.1",
     "good": "^6.4.0",
     "good-console": "^5.1.0",
     "handlebars": "^4.0.5",
