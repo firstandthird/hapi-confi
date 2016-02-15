@@ -1,4 +1,14 @@
 
+0.1.1 / 2016-02-15
+==================
+
+  * fixed some linting errors
+  * added linting
+  * Create README.md
+  * added tests to make sure it configures the hapi server correctly
+  * extraneous debug statement removed
+  * added basic lab tests to verify thathapi-confi uses confi correctly updated to confi 1.0.0
+
 0.1.0 / 2015-11-10
 ==================
 
