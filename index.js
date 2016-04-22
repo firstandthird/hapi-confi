@@ -90,6 +90,8 @@ module.exports = function(Hapi, options, allDone) {
           server.log(['hapi-confi'], { message: 'good reporters loaded', reporters: keys });
           done(err, server, config);
         });
+      } else {
+        done(null, server, config);
       }
     },
     //load auth plugins
