@@ -1,4 +1,11 @@
 
+0.3.0 / 2016-04-22
+==================
+
+  * updated dependencies
+  * fixes server not starting if logging was disabled. fixes #7
+  * allow sorting of plugins with _priority
+
 0.2.0 / 2016-02-16
 ==================
 
