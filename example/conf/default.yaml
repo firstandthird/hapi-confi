@@ -8,4 +8,9 @@ logging:
         log: '*'
 
 plugins:
+  hapi-nonexistent: false
+  hapi-disabled: 
+    _enabled: false
   hapi-views:
+  hapi-favicon:
+    _priority: -1

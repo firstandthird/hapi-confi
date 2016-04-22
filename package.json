@@ -38,6 +38,7 @@
     "handlebars": "^4.0.5",
     "hapi": "^10.1.0",
     "hapi-auth-cookie": "^5.0.0",
+    "hapi-favicon": "0.0.2",
     "hapi-views": "0.0.1",
     "lab": "^8.0.2"
   }

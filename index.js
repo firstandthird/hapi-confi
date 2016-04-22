@@ -135,18 +135,32 @@ module.exports = function(Hapi, options, allDone) {
         return done(null, server, config);
       }
 
-      async.forEachOfSeries(config.plugins, function(value, key, eachDone) {
-        if (typeof value === 'undefined' || value === null) {
+      var pluginArr = [];
+      _.forIn(config.plugins, function(value, key) {
+        if (value === null) {
           value = {};
         }
-        if (value === false || value._enabled === false) {
-          return eachDone();
+        if (value === false) {
+          return;
         }
-        delete value._enabled;
-        server.log(['hapi-confi'], { message: 'plugin loaded', plugin: key, options: value });
+        if (value._enabled === false) {
+          return;
+        }
+        value._name = key;
+        pluginArr.push(value);
+      });
+
+      pluginArr = _.sortBy(pluginArr, '_priority');
+
+      async.eachSeries(pluginArr, function(plugin, eachDone) {
+        var name = plugin._name;
+        delete plugin._name;
+        delete plugin._enabled;
+        delete plugin._priority;
+        server.log(['hapi-confi'], { message: 'plugin loaded', plugin: name, options: plugin });
         server.register({
-          register: requireCwd(key),
-          options: value
+          register: requireCwd(name),
+          options: plugin
         }, eachDone);
       }, function(err) {
         done(err, server, config);
