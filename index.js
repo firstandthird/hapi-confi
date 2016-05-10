@@ -28,7 +28,7 @@ module.exports = function(Hapi, options, allDone) {
       if (options.env) {
         confiOptions.env = options.env;
       }
-      try{
+      try {
         var config = confi(confiOptions);
         done(null, config);
       } catch (exc) {
