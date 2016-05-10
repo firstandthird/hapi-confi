@@ -28,9 +28,12 @@ module.exports = function(Hapi, options, allDone) {
       if (options.env) {
         confiOptions.env = options.env;
       }
-      var config = confi(confiOptions);
-
-      done(null, config);
+      try{
+        var config = confi(confiOptions);
+        done(null, config);
+      } catch (exc) {
+        done(exc);
+      }
     },
     //set up server
     function(config, done) {

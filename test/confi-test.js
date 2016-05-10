@@ -55,3 +55,11 @@ lab.test('test yaml', (done)=>{
     done();
   });
 });
+
+lab.test('returns error if it cannot parse any config file ', (done)=>{
+  hapiconfi(Hapi, { configPath: [__dirname + '/conf', __dirname + "/dysfunctional" ] }, function(err,server, config){
+    code.expect(typeof err).to.equal('object');
+    code.expect(err.message).to.equal('Unable to parse file default.yaml');
+    done();
+  });
+});
