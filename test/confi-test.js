@@ -3,7 +3,7 @@ var Hapi = require('hapi');
 var code = require('code');
 var lab = exports.lab = require('lab').script();
 
-lab.test('tests default ', (done)=>{
+lab.test('tests default ', (done)=> {
   hapiconfi(Hapi, {   configPath: __dirname + '/conf'}, function(err,server, config){
     code.expect(err).to.equal(null);
     code.expect(server.settings.app.blah).to.equal(true);
@@ -13,7 +13,7 @@ lab.test('tests default ', (done)=>{
   });
 });
 
-lab.test('tests multiple paths ', (done)=>{
+lab.test('tests multiple paths ', (done)=> {
   hapiconfi(Hapi, { configPath: [__dirname + '/conf', __dirname + "/conf2" ] }, function(err,server, config){
     code.expect(err).to.equal(null);
     code.expect(server.settings.app.multiple).to.equal(true);
@@ -21,7 +21,7 @@ lab.test('tests multiple paths ', (done)=>{
   });
 });
 
-lab.test('test dev ', (done)=>{
+lab.test('test dev ', (done)=> {
   hapiconfi(Hapi, {  configPath: [__dirname + '/conf']}, function(err,server, config){
     code.expect(err).to.equal(null);
     code.expect(server.settings.app.analytics.profile).to.equal('ga-xxx');
