@@ -7,13 +7,13 @@ const lab = exports.lab = require('lab').script();
 lab.test('test server is initialized ', (done) => {
   hapiconfi(Hapi, { configPath: `${__dirname}/conf` }, (err, server) => {
     code.expect(err).to.equal(null);
-    server.start((err) => {
-      code.expect(err).to.equal(undefined);
-      server.stop((err) => {
-        code.expect(err).to.equal(undefined);
+    server.start((startErr) => {
+      code.expect(startErr).to.equal(undefined);
+      server.stop((stopErr) => {
+        code.expect(stopErr).to.equal(undefined);
         done();
-      })
-    })
+      });
+    });
   });
 });
 
@@ -28,7 +28,7 @@ lab.test('logging is configured ', (done) => {
 });
 
 lab.test('auth is configured ', (done) => {
-  hapiconfi(Hapi, { configPath: `${__dirname}/conf`}, (err, server, config) => {
+  hapiconfi(Hapi, { configPath: `${__dirname}/conf` }, (err, server) => {
     code.expect(server.auth).to.not.equal(undefined);
     code.expect(typeof server.auth.scheme).to.equal('function');
     code.expect(typeof server.auth.default).to.equal('function');
@@ -38,22 +38,22 @@ lab.test('auth is configured ', (done) => {
 });
 
 lab.test('plugins are configured ', (done) => {
-  hapiconfi(Hapi, { configPath: `${__dirname}/conf`}, (err, server, config) => {
-    code.expect(server.plugins['views']).to.not.equal(undefined)
+  hapiconfi(Hapi, { configPath: `${__dirname}/conf` }, (err, server) => {
+    code.expect(server.plugins.views).to.not.equal(undefined);
     done();
   });
 });
 
 lab.test('views are configured ', (done) => {
-  hapiconfi(Hapi, {   configPath: `${__dirname}/conf`}, (err,server, config) => {
-    var success = false;
-    try{
+  hapiconfi(Hapi, { configPath: `${__dirname}/conf` }, (err, server) => {
+    let success = false;
+    try {
       server.views({
         engines: {
           html: 'handlebars'
         }
       });
-    } catch (exc){
+    } catch (exc) {
       success = true;
     }
     code.expect(success).to.equal(true);
@@ -61,11 +61,11 @@ lab.test('views are configured ', (done) => {
   });
 });
 lab.test('strategies are configured ', (done) => {
-  hapiconfi(Hapi, {   configPath: `${__dirname}/conf`}, (err,server, config) => {
+  hapiconfi(Hapi, { configPath: `${__dirname}/conf` }, (err, server) => {
     let success = false;
     try {
-      let session = server.settings.app.env.strategies;
-      server.auth.strategy("session", "cookie", "try", {});
+      const session = server.settings.app.env.strategies;
+      server.auth.strategy('session', 'cookie', 'try', {});
     } catch (e) {
       success = true;
     }
