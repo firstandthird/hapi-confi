@@ -1,18 +1,18 @@
-var confi = require('confi');
-var async = require('async');
-var _ = require('lodash');
-var path = require('path');
+const confi = require('confi');
+const async = require('async');
+const _ = require('lodash');
+const path = require('path');
 
-var cwd = process.cwd();
+const cwd = process.cwd();
 
-var requireCwd = function(req) {
+const requireCwd = (req) => {
   if (req[0] === '.') {
     return require(path.join(cwd, req));
   }
   return require(req);
 };
 
-module.exports = function(Hapi, options, allDone) {
+module.exports = (Hapi, options, allDone) => {
   if (typeof options === 'function') {
     allDone = options;
     options = {};
@@ -32,7 +32,7 @@ module.exports = function(Hapi, options, allDone) {
         var config = confi(confiOptions);
         done(null, config);
       } catch (exc) {
-        done(exc);
+        return done(exc);
       }
     },
     //set up server
