@@ -1,16 +1,15 @@
-var hapiconfi = require('../');
-var Hapi = require('hapi');
-var code = require('code');
-var lab = exports.lab = require('lab').script();
+'use strict';
+const hapiconfi = require('../');
+const Hapi = require('hapi');
+const code = require('code');
+const lab = exports.lab = require('lab').script();
 
-
-
-lab.test('test server is initialized ', (done)=>{
-  hapiconfi(Hapi, {   configPath: __dirname + '/conf'}, function(err,server, config){
+lab.test('test server is initialized ', (done) => {
+  hapiconfi(Hapi, { configPath: `${__dirname}/conf` }, (err, server) => {
     code.expect(err).to.equal(null);
-    server.start(function(err){
+    server.start((err) => {
       code.expect(err).to.equal(undefined);
-      server.stop(function(err){
+      server.stop((err) => {
         code.expect(err).to.equal(undefined);
         done();
       })
@@ -18,8 +17,8 @@ lab.test('test server is initialized ', (done)=>{
   });
 });
 
-lab.test('logging is configured ', (done)=>{
-  hapiconfi(Hapi, {   configPath: __dirname + '/conf'}, function(err,server, config){
+lab.test('logging is configured ', (done) => {
+  hapiconfi(Hapi, { configPath: `${__dirname}/conf` }, (err, server) => {
     code.expect(typeof server.registrations.good).to.equal('object');
     code.expect(typeof server.registrations.good.options.reporters).to.equal('object');
     code.expect(server.registrations.good.options.reporters.length).to.equal(1);
@@ -28,8 +27,8 @@ lab.test('logging is configured ', (done)=>{
   });
 });
 
-lab.test('auth is configured ', (done)=>{
-  hapiconfi(Hapi, {   configPath: __dirname + '/conf'}, function(err,server, config){
+lab.test('auth is configured ', (done) => {
+  hapiconfi(Hapi, { configPath: `${__dirname}/conf`}, (err, server, config) => {
     code.expect(server.auth).to.not.equal(undefined);
     code.expect(typeof server.auth.scheme).to.equal('function');
     code.expect(typeof server.auth.default).to.equal('function');
@@ -38,15 +37,15 @@ lab.test('auth is configured ', (done)=>{
   });
 });
 
-lab.test('plugins are configured ', (done)=>{
-  hapiconfi(Hapi, {   configPath: __dirname + '/conf'}, function(err,server, config){
+lab.test('plugins are configured ', (done) => {
+  hapiconfi(Hapi, { configPath: `${__dirname}/conf`}, (err, server, config) => {
     code.expect(server.plugins['views']).to.not.equal(undefined)
     done();
   });
 });
 
-lab.test('views are configured ', (done)=>{
-  hapiconfi(Hapi, {   configPath: __dirname + '/conf'}, function(err,server, config){
+lab.test('views are configured ', (done) => {
+  hapiconfi(Hapi, {   configPath: `${__dirname}/conf`}, (err,server, config) => {
     var success = false;
     try{
       server.views({
@@ -55,20 +54,20 @@ lab.test('views are configured ', (done)=>{
         }
       });
     } catch (exc){
-      success=true;
+      success = true;
     }
     code.expect(success).to.equal(true);
     done();
   });
 });
-lab.test('strategies are configured ', (done)=>{
-  hapiconfi(Hapi, {   configPath: __dirname + '/conf'}, function(err,server, config){
-    var success = false;
+lab.test('strategies are configured ', (done) => {
+  hapiconfi(Hapi, {   configPath: `${__dirname}/conf`}, (err,server, config) => {
+    let success = false;
     try {
-      var session = server.settings.app.env.strategies;
+      let session = server.settings.app.env.strategies;
       server.auth.strategy("session", "cookie", "try", {});
     } catch (e) {
-      success=true;
+      success = true;
     }
     code.expect(success).to.equal(true);
     done();
