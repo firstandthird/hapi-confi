@@ -5,7 +5,9 @@ const _ = require('lodash');
 const path = require('path');
 
 const cwd = process.cwd();
-
+let log = () => {
+  // by default, don't print
+};
 const requireCwd = (req) => {
   if (req[0] === '.') {
     return require(path.join(cwd, req));
@@ -13,12 +15,16 @@ const requireCwd = (req) => {
   return require(req);
 };
 
+const defaults = {
+  verbose: false
+};
 
 module.exports = (Hapi, options, allDone) => {
   if (typeof options === 'function') {
     allDone = options;
     options = {};
   }
+  options = _.defaults(options, defaults);
   options.configPath = options.configPath || `${cwd}/conf`;
   // load chain:
   const loadConfig = (done) => {
@@ -35,7 +41,6 @@ module.exports = (Hapi, options, allDone) => {
       return done(exc);
     }
   };
-
   const loadServer = (done, result) => {
     const config = result.config;
     const serverConfig = _.cloneDeep(config.server || {});
@@ -47,6 +52,11 @@ module.exports = (Hapi, options, allDone) => {
       connection.port = process.env.PORT;
     }
     const server = new Hapi.Server(serverConfig);
+    if (options.verbose) {
+      log = (tags, msg) => {
+        server.log(tags, msg);
+      };
+    }
     server.connection(connection);
     server.settings.app = config;
     done(null, server);
@@ -75,7 +85,7 @@ module.exports = (Hapi, options, allDone) => {
         register: requireCwd('good'),
         options: config.logging
       }, (err) => {
-        server.log(['hapi-confi'], { message: 'good reporters loaded', reporters: keys });
+        log(['hapi-confi'], { message: 'good reporters loaded', reporters: keys });
         done(err, server, config);
       });
     } else {
@@ -97,7 +107,7 @@ module.exports = (Hapi, options, allDone) => {
         return eachDone();
       }
       delete value._enabled;
-      server.log(['hapi-confi'], { message: 'auth plugin loaded', plugin: key, options: value });
+      log(['hapi-confi'], { message: 'auth plugin loaded', plugin: key, options: value });
       server.register({
         register: requireCwd(key),
         options: value
@@ -111,7 +121,7 @@ module.exports = (Hapi, options, allDone) => {
     const server = result.server;
     const config = result.config;
     _.forIn(config.strategies, (value, name) => {
-      server.log(['hapi-confi'], { message: 'strategy loaded', strategy: name, options: value });
+      log(['hapi-confi'], { message: 'strategy loaded', strategy: name, options: value });
       const profileFn = _.get(value, 'options.provider.profile');
       if (typeof profileFn === 'string') {
         value.options.provider.profile = (credentials, params, get, callback) => {
@@ -149,7 +159,7 @@ module.exports = (Hapi, options, allDone) => {
       delete plugin._name;
       delete plugin._enabled;
       delete plugin._priority;
-      server.log(['hapi-confi'], { message: 'plugin loaded', plugin: name, options: plugin });
+      log(['hapi-confi'], { message: 'plugin loaded', plugin: name, options: plugin });
       server.register({
         register: requireCwd(name),
         options: plugin
@@ -169,7 +179,7 @@ module.exports = (Hapi, options, allDone) => {
         }
       });
       server.views(config.views);
-      server.log(['hapi-confi'], { message: 'views configured' });
+      log(['hapi-confi'], { message: 'views configured' });
     }
     done(null, server, config);
   };
