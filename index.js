@@ -13,7 +13,6 @@ const requireCwd = (req) => {
   return require(req);
 };
 
-
 module.exports = (Hapi, options, allDone) => {
   if (typeof options === 'function') {
     allDone = options;
