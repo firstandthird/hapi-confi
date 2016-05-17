@@ -1,42 +1,46 @@
-var confi = require('confi');
-var async = require('async');
-var _ = require('lodash');
-var path = require('path');
+'use strict';
+const confi = require('confi');
+const async = require('async');
+const _ = require('lodash');
+const path = require('path');
 
-var cwd = process.cwd();
+const cwd = process.cwd();
 
-var requireCwd = function(req) {
+const requireCwd = (req) => {
   if (req[0] === '.') {
     return require(path.join(cwd, req));
   }
   return require(req);
 };
 
-module.exports = function(Hapi, options, allDone) {
+module.exports = (Hapi, options, allDone) => {
   if (typeof options === 'function') {
     allDone = options;
     options = {};
   }
 
-  options.configPath = options.configPath || cwd + '/conf';
+  options.configPath = options.configPath || `${cwd}/conf`;
   async.waterfall([
     //read config
-    function(done) {
-      var confiOptions = {
+    (done) => {
+      const confiOptions = {
         path: options.configPath
       };
       if (options.env) {
         confiOptions.env = options.env;
       }
-      var config = confi(confiOptions);
-
-      done(null, config);
+      try {
+        const config = confi(confiOptions);
+        return done(null, config);
+      } catch (exc) {
+        return done(exc);
+      }
     },
     //set up server
-    function(config, done) {
-      var serverConfig = _.cloneDeep(config.server || {});
+    (config, done) => {
+      const serverConfig = _.cloneDeep(config.server || {});
 
-      var connection = config.connection || {};
+      const connection = config.connection || {};
 
       if (serverConfig.cache) {
         serverConfig.cache.engine = requireCwd(serverConfig.cache.engine);
@@ -46,7 +50,7 @@ module.exports = function(Hapi, options, allDone) {
         connection.port = process.env.PORT;
       }
 
-      var server = new Hapi.Server(serverConfig);
+      const server = new Hapi.Server(serverConfig);
 
       server.connection(connection);
 
@@ -55,7 +59,7 @@ module.exports = function(Hapi, options, allDone) {
       done(null, server, config);
     },
     //before hook
-    function(server, config, done) {
+    (server, config, done) => {
       if (typeof options.before !== 'function') {
         return done(null, server, config);
       }
@@ -63,20 +67,20 @@ module.exports = function(Hapi, options, allDone) {
       options.before(server, config, done);
     },
     //set up logging
-    function(server, config, done) {
+    (server, config, done) => {
       if (!config.logging) {
         return done(null, server, config);
       }
-      var reporters = [];
-      var keys = [];
+      const reporters = [];
+      const keys = [];
 
-      _.forIn(config.logging.reporters, function(value, key) {
+      _.forIn(config.logging.reporters, (value, key) => {
         if (value === false || value._enabled === false) {
           return;
         }
         delete value._enabled;
         keys.push(key);
-        value.reporter = requireCwd('good-' + key);
+        value.reporter = requireCwd(`good-${key}`);
         reporters.push(value);
       });
 
@@ -86,21 +90,21 @@ module.exports = function(Hapi, options, allDone) {
         server.register({
           register: requireCwd('good'),
           options: config.logging
-        }, function(err) {
+        }, (err) => {
           server.log(['hapi-confi'], { message: 'good reporters loaded', reporters: keys });
           done(err, server, config);
         });
       } else {
-        done(null, server, config);
+        return done(null, server, config);
       }
     },
     //load auth plugins
-    function(server, config, done) {
+    (server, config, done) => {
       if (!config.authPlugins) {
         return done(null, server, config);
       }
 
-      async.forEachOfSeries(config.authPlugins, function(value, key, eachDone) {
+      async.forEachOfSeries(config.authPlugins, (value, key, eachDone) => {
         if (typeof value === 'undefined' || value === null) {
           value = {};
         }
@@ -113,17 +117,17 @@ module.exports = function(Hapi, options, allDone) {
           register: requireCwd(key),
           options: value
         }, eachDone);
-      }, function(err) {
+      }, (err) => {
         done(err, server, config);
       });
     },
     //load strategies
-    function(server, config, done) {
-      _.forIn(config.strategies, function(value, name) {
+    (server, config, done) => {
+      _.forIn(config.strategies, (value, name) => {
         server.log(['hapi-confi'], { message: 'strategy loaded', strategy: name, options: value });
-        var profileFn = _.get(value, 'options.provider.profile');
+        const profileFn = _.get(value, 'options.provider.profile');
         if (typeof profileFn === 'string') {
-          value.options.provider.profile = function(credentials, params, get, callback) {
+          value.options.provider.profile = (credentials, params, get, callback) => {
             server.methods[profileFn](credentials, params, get, callback);
           };
         }
@@ -132,13 +136,13 @@ module.exports = function(Hapi, options, allDone) {
       done(null, server, config);
     },
     //load plugins
-    function(server, config, done) {
+    (server, config, done) => {
       if (!config.plugins) {
         return done(null, server, config);
       }
 
-      var pluginArr = [];
-      _.forIn(config.plugins, function(value, key) {
+      let pluginArr = [];
+      _.forIn(config.plugins, (value, key) => {
         if (value === null) {
           value = {};
         }
@@ -154,8 +158,8 @@ module.exports = function(Hapi, options, allDone) {
 
       pluginArr = _.sortBy(pluginArr, '_priority');
 
-      async.eachSeries(pluginArr, function(plugin, eachDone) {
-        var name = plugin._name;
+      async.eachSeries(pluginArr, (plugin, eachDone) => {
+        const name = plugin._name;
         delete plugin._name;
         delete plugin._enabled;
         delete plugin._priority;
@@ -164,13 +168,13 @@ module.exports = function(Hapi, options, allDone) {
           register: requireCwd(name),
           options: plugin
         }, eachDone);
-      }, function(err) {
+      }, (err) => {
         done(err, server, config);
       });
     },
-    function(server, config, done) {
+    (server, config, done) => {
       if (config.views) {
-        _.forIn(config.views.engines, function(engine, ext) {
+        _.forIn(config.views.engines, (engine, ext) => {
           if (typeof engine === 'string') {
             config.views.engines[ext] = requireCwd(engine);
           }

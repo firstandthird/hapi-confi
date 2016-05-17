@@ -1,25 +1,24 @@
-var hapiConfi = require('../');
-var Hapi = require('hapi');
+'use strict';
+const hapiConfi = require('../');
+const Hapi = require('hapi');
 
-var options = {
-  configPath: __dirname + '/conf'
-
+const options = {
+  configPath: `${__dirname}/conf`
 };
-hapiConfi(Hapi, options, function(err, server, config) {
 
+hapiConfi(Hapi, options, (err, server) => {
   server.route({
     path: '/',
     method: 'get',
-    handler: function(request, reply) {
+    handler: (request, reply) => {
       reply('ok');
     }
   });
-  server.start(function(err) {
-    if (err) {
-      throw err;
+  server.start((startErr) => {
+    if (startErr) {
+      throw startErr;
     }
 
-    server.log(['server', 'info'], 'Server started '+ server.info.uri);
+    server.log(['server', 'info'], `Server started ${server.info.uri}`);
   });
-
 });
