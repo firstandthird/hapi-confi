@@ -1,0 +1,170 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install' ]
+2 info using npm@2.15.1
+3 info using node@v4.4.3
+4 verbose readDependencies loading dependencies from C:\firstandthird\firstandthird\hapi-confi\package.json
+5 verbose install where, deps [ 'C:\\firstandthird\\firstandthird\\hapi-confi',
+5 verbose install   [ 'async',
+5 verbose install     'confi',
+5 verbose install     'lodash',
+5 verbose install     'code',
+5 verbose install     'eslint',
+5 verbose install     'eslint-config-airbnb',
+5 verbose install     'eslint-config-firstandthird',
+5 verbose install     'eslint-plugin-react',
+5 verbose install     'good',
+5 verbose install     'good-console',
+5 verbose install     'handlebars',
+5 verbose install     'hapi',
+5 verbose install     'hapi-auth-cookie',
+5 verbose install     'hapi-favicon',
+5 verbose install     'hapi-views',
+5 verbose install     'lab' ] ]
+6 verbose install where, peers [ 'C:\\firstandthird\\firstandthird\\hapi-confi', [] ]
+7 verbose installManyTop reading for lifecycle C:\firstandthird\firstandthird\hapi-confi\package.json
+8 info preinstall hapi-confi@0.3.0
+9 verbose installManyTop reading scoped package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\async\package.json
+10 verbose installManyTop reading scoped package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\code\package.json
+11 verbose installManyTop reading scoped package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\confi\package.json
+12 verbose installManyTop reading scoped package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\eslint\package.json
+13 verbose installManyTop reading scoped package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\eslint-config-airbnb\package.json
+14 verbose installManyTop reading scoped package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\eslint-config-firstandthird\package.json
+15 verbose installManyTop reading scoped package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\eslint-plugin-import\package.json
+16 verbose installManyTop reading scoped package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\eslint-plugin-jsx-a11y\package.json
+17 verbose installManyTop reading scoped package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\eslint-plugin-react\package.json
+18 verbose installManyTop reading scoped package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\good\package.json
+19 verbose installManyTop reading scoped package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\good-console\package.json
+20 verbose installManyTop reading scoped package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\handlebars\package.json
+21 verbose installManyTop reading scoped package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\hapi\package.json
+22 verbose installManyTop reading scoped package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\hapi-auth-cookie\package.json
+23 verbose installManyTop reading scoped package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\hapi-favicon\package.json
+24 verbose installManyTop reading scoped package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\hapi-views\package.json
+25 verbose installManyTop reading scoped package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\lab\package.json
+26 verbose installManyTop reading scoped package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\lodash\package.json
+27 info package.json confi@1.2.0 No license field.
+28 info package.json eslint-config-firstandthird@2.0.0 No license field.
+29 verbose readDependencies loading dependencies from C:\firstandthird\firstandthird\hapi-confi\package.json
+30 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\async\package.json
+31 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\code\package.json
+32 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\confi\package.json
+33 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\eslint\package.json
+34 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\eslint-config-airbnb\package.json
+35 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\eslint-config-firstandthird\package.json
+36 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\eslint-plugin-import\package.json
+37 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\eslint-plugin-jsx-a11y\package.json
+38 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\eslint-plugin-react\package.json
+39 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\good\package.json
+40 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\good-console\package.json
+41 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\handlebars\package.json
+42 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\hapi\package.json
+43 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\hapi-auth-cookie\package.json
+44 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\hapi-favicon\package.json
+45 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\hapi-views\package.json
+46 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\lab\package.json
+47 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\lodash\package.json
+48 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\.bin\eslint\package.json
+49 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\.bin\eslint.cmd\package.json
+50 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\.bin\handlebars\package.json
+51 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\.bin\handlebars.cmd\package.json
+52 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\.bin\lab\package.json
+53 verbose targetResolver reading package data from C:\firstandthird\firstandthird\hapi-confi\node_modules\.bin\lab.cmd\package.json
+54 verbose already installed skipping hapi-auth-cookie@^5.0.0 C:\firstandthird\firstandthird\hapi-confi
+55 verbose already installed skipping hapi-favicon@0.0.2 C:\firstandthird\firstandthird\hapi-confi
+56 verbose already installed skipping hapi-views@0.0.1 C:\firstandthird\firstandthird\hapi-confi
+57 verbose already installed skipping lab@^8.0.2 C:\firstandthird\firstandthird\hapi-confi
+58 verbose already installed skipping async@^1.5.2 C:\firstandthird\firstandthird\hapi-confi
+59 verbose already installed skipping confi@^1.2.0 C:\firstandthird\firstandthird\hapi-confi
+60 verbose already installed skipping lodash@^4.11.1 C:\firstandthird\firstandthird\hapi-confi
+61 verbose already installed skipping code@^2.1.0 C:\firstandthird\firstandthird\hapi-confi
+62 verbose already installed skipping eslint@^2.2.0 C:\firstandthird\firstandthird\hapi-confi
+63 verbose already installed skipping eslint-config-airbnb@^6.0.2 C:\firstandthird\firstandthird\hapi-confi
+64 verbose already installed skipping eslint-config-firstandthird@^2.0.0 C:\firstandthird\firstandthird\hapi-confi
+65 verbose already installed skipping eslint-plugin-react@^4.1.0 C:\firstandthird\firstandthird\hapi-confi
+66 verbose already installed skipping good@^6.4.0 C:\firstandthird\firstandthird\hapi-confi
+67 verbose already installed skipping good-console@^5.1.0 C:\firstandthird\firstandthird\hapi-confi
+68 verbose already installed skipping handlebars@^4.0.5 C:\firstandthird\firstandthird\hapi-confi
+69 verbose already installed skipping hapi@^10.1.0 C:\firstandthird\firstandthird\hapi-confi
+70 silly install resolved []
+71 info build C:\firstandthird\firstandthird\hapi-confi
+72 info linkStuff hapi-confi@0.3.0
+73 silly linkStuff hapi-confi@0.3.0 has C:\firstandthird\firstandthird as its parent node_modules
+74 verbose linkBins hapi-confi@0.3.0
+75 verbose linkMans hapi-confi@0.3.0
+76 verbose rebuildBundles hapi-confi@0.3.0
+77 verbose rebuildBundles [ '.bin',
+77 verbose rebuildBundles   'async',
+77 verbose rebuildBundles   'code',
+77 verbose rebuildBundles   'confi',
+77 verbose rebuildBundles   'eslint',
+77 verbose rebuildBundles   'eslint-config-airbnb',
+77 verbose rebuildBundles   'eslint-config-firstandthird',
+77 verbose rebuildBundles   'eslint-plugin-import',
+77 verbose rebuildBundles   'eslint-plugin-jsx-a11y',
+77 verbose rebuildBundles   'eslint-plugin-react',
+77 verbose rebuildBundles   'good',
+77 verbose rebuildBundles   'good-console',
+77 verbose rebuildBundles   'handlebars',
+77 verbose rebuildBundles   'hapi',
+77 verbose rebuildBundles   'hapi-auth-cookie',
+77 verbose rebuildBundles   'hapi-favicon',
+77 verbose rebuildBundles   'hapi-views',
+77 verbose rebuildBundles   'lab',
+77 verbose rebuildBundles   'lodash' ]
+78 verbose rebuild bundle C:\firstandthird\firstandthird\hapi-confi\node_modules\eslint-plugin-import
+79 info build C:\firstandthird\firstandthird\hapi-confi\node_modules\eslint-plugin-import
+80 info preinstall eslint-plugin-import@1.8.0
+81 info linkStuff eslint-plugin-import@1.8.0
+82 silly linkStuff eslint-plugin-import@1.8.0 has C:\firstandthird\firstandthird\hapi-confi\node_modules as its parent node_modules
+83 verbose linkBins eslint-plugin-import@1.8.0
+84 verbose linkMans eslint-plugin-import@1.8.0
+85 verbose rebuildBundles eslint-plugin-import@1.8.0
+86 verbose rebuildBundles [ 'builtin-modules',
+86 verbose rebuildBundles   'doctrine',
+86 verbose rebuildBundles   'es6-map',
+86 verbose rebuildBundles   'es6-set',
+86 verbose rebuildBundles   'es6-symbol',
+86 verbose rebuildBundles   'eslint-import-resolver-node',
+86 verbose rebuildBundles   'lodash.cond',
+86 verbose rebuildBundles   'lodash.endswith',
+86 verbose rebuildBundles   'lodash.find',
+86 verbose rebuildBundles   'object-assign',
+86 verbose rebuildBundles   'pkg-up' ]
+87 info install eslint-plugin-import@1.8.0
+88 info postinstall eslint-plugin-import@1.8.0
+89 verbose rebuild bundle C:\firstandthird\firstandthird\hapi-confi\node_modules\eslint-plugin-jsx-a11y
+90 info build C:\firstandthird\firstandthird\hapi-confi\node_modules\eslint-plugin-jsx-a11y
+91 info preinstall eslint-plugin-jsx-a11y@1.2.0
+92 info linkStuff eslint-plugin-jsx-a11y@1.2.0
+93 silly linkStuff eslint-plugin-jsx-a11y@1.2.0 has C:\firstandthird\firstandthird\hapi-confi\node_modules as its parent node_modules
+94 verbose linkBins eslint-plugin-jsx-a11y@1.2.0
+95 verbose linkMans eslint-plugin-jsx-a11y@1.2.0
+96 verbose rebuildBundles eslint-plugin-jsx-a11y@1.2.0
+97 verbose rebuildBundles [ 'object-assign' ]
+98 info install eslint-plugin-jsx-a11y@1.2.0
+99 info postinstall eslint-plugin-jsx-a11y@1.2.0
+100 info install hapi-confi@0.3.0
+101 info postinstall hapi-confi@0.3.0
+102 info prepublish hapi-confi@0.3.0
+103 verbose validateInstall loading C:\firstandthird\firstandthird\hapi-confi\package.json for validation
+104 verbose stack Error: The package eslint-config-airbnb@6.2.0 does not satisfy its siblings' peerDependencies requirements!
+104 verbose stack     at C:\Program Files\nodejs\node_modules\npm\lib\install.js:125:32
+104 verbose stack     at C:\Program Files\nodejs\node_modules\npm\lib\install.js:268:7
+104 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:142:5
+104 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:263:14
+104 verbose stack     at cb (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\async-map.js:47:24)
+104 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:263:14
+104 verbose stack     at cb (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\async-map.js:47:24)
+104 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:263:14
+104 verbose stack     at cb (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\async-map.js:47:24)
+104 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:263:14
+105 verbose cwd C:\firstandthird\firstandthird\hapi-confi
+106 error Windows_NT 10.0.10586
+107 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install"
+108 error node v4.4.3
+109 error npm  v2.15.1
+110 error code EPEERINVALID
+111 error peerinvalid The package eslint-config-airbnb@6.2.0 does not satisfy its siblings' peerDependencies requirements!
+111 error peerinvalid Peer eslint-config-firstandthird@2.0.0 wants eslint-config-airbnb@8.0.0
+112 verbose exit [ 1, true ]

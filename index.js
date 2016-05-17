@@ -30,7 +30,7 @@ module.exports = (Hapi, options, allDone) => {
     }
     try {
       const config = confi(confiOptions);
-      done(null, config);
+      return done(null, config);
     } catch (exc) {
       return done(exc);
     }
@@ -79,7 +79,7 @@ module.exports = (Hapi, options, allDone) => {
         done(err, server, config);
       });
     } else {
-      done(null, server, config);
+      return done(null, server, config);
     }
   };
 
