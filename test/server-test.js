@@ -64,7 +64,9 @@ lab.test('strategies are configured ', (done) => {
   hapiconfi(Hapi, { configPath: `${__dirname}/conf` }, (err, server) => {
     let success = false;
     try {
+      // this should throw an error:
       const session = server.settings.app.env.strategies;
+      session.toString();
       server.auth.strategy('session', 'cookie', 'try', {});
     } catch (e) {
       success = true;
