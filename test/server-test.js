@@ -60,11 +60,31 @@ lab.test('views are configured ', (done) => {
     done();
   });
 });
+
+lab.test('test server can load vision view engine ', (done) => {
+  hapiconfi(Hapi, { configPath: `${__dirname}/conf3` }, (err, server) => {
+    code.expect(err).to.equal(null);
+    let success = false;
+    try {
+      server.views({
+        engines: {
+          html: 'handlebars'
+        }
+      });
+    } catch (exc) {
+      success = true;
+    }
+    code.expect(success).to.equal(true);
+    code.expect(server.registrations.vision).to.not.equal(undefined);
+    done();
+  });
+});
+
 lab.test('strategies are configured ', (done) => {
   hapiconfi(Hapi, { configPath: `${__dirname}/conf` }, (err, server) => {
     let success = false;
     try {
-      // this statement should fail:
+      // this line should fail:
       const session = server.settings.app.env.strategies;
       session.toString();
       server.auth.strategy('session', 'cookie', 'try', {});

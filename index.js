@@ -18,11 +18,10 @@ module.exports = (Hapi, options, allDone) => {
     allDone = options;
     options = {};
   }
-
   options.configPath = options.configPath || `${cwd}/conf`;
-  async.waterfall([
-    //read config
-    (done) => {
+
+  async.auto({
+    config: (done) => {
       const confiOptions = {
         path: options.configPath
       };
@@ -36,44 +35,35 @@ module.exports = (Hapi, options, allDone) => {
         return done(exc);
       }
     },
-    //set up server
-    (config, done) => {
+    server: ['config', (done, result) => {
+      const config = result.config;
       const serverConfig = _.cloneDeep(config.server || {});
-
       const connection = config.connection || {};
-
       if (serverConfig.cache) {
         serverConfig.cache.engine = requireCwd(serverConfig.cache.engine);
       }
-
       if (process.env.PORT) {
         connection.port = process.env.PORT;
       }
-
       const server = new Hapi.Server(serverConfig);
-
       server.connection(connection);
-
       server.settings.app = config;
-
-      done(null, server, config);
-    },
-    //before hook
-    (server, config, done) => {
+      done(null, server);
+    }],
+    beforeHook: ['server', (done, result) => {
       if (typeof options.before !== 'function') {
-        return done(null, server, config);
+        return done();
       }
-
-      options.before(server, config, done);
-    },
-    //set up logging
-    (server, config, done) => {
+      options.before(result.server, result.config, done);
+    }],
+    log: ['beforeHook', (done, result) => {
+      const server = result.server;
+      const config = result.config;
       if (!config.logging) {
         return done(null, server, config);
       }
       const reporters = [];
       const keys = [];
-
       _.forIn(config.logging.reporters, (value, key) => {
         if (value === false || value._enabled === false) {
           return;
@@ -83,10 +73,8 @@ module.exports = (Hapi, options, allDone) => {
         value.reporter = requireCwd(`good-${key}`);
         reporters.push(value);
       });
-
       if (reporters.length !== 0) {
         config.logging.reporters = reporters;
-
         server.register({
           register: requireCwd('good'),
           options: config.logging
@@ -97,13 +85,13 @@ module.exports = (Hapi, options, allDone) => {
       } else {
         return done(null, server, config);
       }
-    },
-    //load auth plugins
-    (server, config, done) => {
+    }],
+    auth: ['log', (done, result) => {
+      const server = result.server;
+      const config = result.config;
       if (!config.authPlugins) {
         return done(null, server, config);
       }
-
       async.forEachOfSeries(config.authPlugins, (value, key, eachDone) => {
         if (typeof value === 'undefined' || value === null) {
           value = {};
@@ -120,9 +108,10 @@ module.exports = (Hapi, options, allDone) => {
       }, (err) => {
         done(err, server, config);
       });
-    },
-    //load strategies
-    (server, config, done) => {
+    }],
+    strategies: ['auth', (done, result) => {
+      const server = result.server;
+      const config = result.config;
       _.forIn(config.strategies, (value, name) => {
         server.log(['hapi-confi'], { message: 'strategy loaded', strategy: name, options: value });
         const profileFn = _.get(value, 'options.provider.profile');
@@ -134,13 +123,13 @@ module.exports = (Hapi, options, allDone) => {
         server.auth.strategy(name, value.scheme, value.mode, value.options);
       });
       done(null, server, config);
-    },
-    //load plugins
-    (server, config, done) => {
+    }],
+    plugins: ['strategies', (done, result) => {
+      const server = result.server;
+      const config = result.config;
       if (!config.plugins) {
         return done(null, server, config);
       }
-
       let pluginArr = [];
       _.forIn(config.plugins, (value, key) => {
         if (value === null) {
@@ -155,9 +144,7 @@ module.exports = (Hapi, options, allDone) => {
         value._name = key;
         pluginArr.push(value);
       });
-
       pluginArr = _.sortBy(pluginArr, '_priority');
-
       async.eachSeries(pluginArr, (plugin, eachDone) => {
         const name = plugin._name;
         delete plugin._name;
@@ -171,8 +158,10 @@ module.exports = (Hapi, options, allDone) => {
       }, (err) => {
         done(err, server, config);
       });
-    },
-    (server, config, done) => {
+    }],
+    views: ['plugins', 'strategies', 'beforeHook', (done, result) => {
+      const server = result.server;
+      const config = result.config;
       if (config.views) {
         _.forIn(config.views.engines, (engine, ext) => {
           if (typeof engine === 'string') {
@@ -183,7 +172,11 @@ module.exports = (Hapi, options, allDone) => {
         server.log(['hapi-confi'], { message: 'views configured' });
       }
       done(null, server, config);
+    }]
+  }, (autoErr, result) => {
+    if (autoErr) {
+      return allDone(autoErr);
     }
-
-  ], allDone);
+    allDone(null, result.server, result.config);
+  });
 };
