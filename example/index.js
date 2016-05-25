@@ -3,7 +3,8 @@ const hapiConfi = require('../');
 const Hapi = require('hapi');
 
 const options = {
-  configPath: `${__dirname}/conf`
+  configPath: `${__dirname}/conf`,
+  verbose: true
 };
 
 hapiConfi(Hapi, options, (err, server) => {

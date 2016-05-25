@@ -1,2 +1,5 @@
 node_modules
-npm-debug.log
+*.log
+*.BASE.js
+*.REMOTE.js
+*.LOCAL.js
