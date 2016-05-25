@@ -64,3 +64,18 @@ lab.test('returns error if it cannot parse any config file ', (done) => {
     done();
   });
 });
+lab.test('view plugins do not add circular refs to server.settings.app', (done) => {
+  hapiconfi(Hapi, { configPath: `${__dirname}/conf` }, (err, server) => {
+    code.expect(err).to.equal(null);
+    let success = false;
+    try {
+      JSON.stringify(server.settings.app);
+      success = true;
+    } catch (exc) {
+      console.log(exc);
+      success = false;
+    }
+    code.expect(success).to.equal(true);
+    done();
+  });
+});
