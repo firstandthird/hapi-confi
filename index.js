@@ -38,15 +38,16 @@ module.exports = (Hapi, options, allDone) => {
     server: ['config', (done, result) => {
       const config = result.config;
       const serverConfig = config.server || {};
-      const connection = config.connection || {};
+      const connection = _.cloneDeep(config.connection || {});
       if (serverConfig.cache) {
-        serverConfig.cache.engine = requireCwd(serverConfig.cache.engine);
+        serverConfig.cache.engine = _.cloneDeep(requireCwd(serverConfig.cache.engine));
       }
       if (process.env.PORT) {
         connection.port = process.env.PORT;
       }
       const server = new Hapi.Server(serverConfig);
       server.connection(connection);
+      // this must be deep-cloned to avoid circular error:
       server.settings.app = _.cloneDeep(config);
       done(null, server);
     }],
@@ -76,7 +77,7 @@ module.exports = (Hapi, options, allDone) => {
       if (reporters.length !== 0) {
         config.logging.reporters = reporters;
         server.register({
-          register: requireCwd('good'),
+          register: _.cloneDeep(requireCwd('good')),
           options: config.logging
         }, (err) => {
           server.log(['hapi-confi'], { message: 'good reporters loaded', reporters: keys });
@@ -102,7 +103,7 @@ module.exports = (Hapi, options, allDone) => {
         delete value._enabled;
         server.log(['hapi-confi'], { message: 'auth plugin loaded', plugin: key, options: value });
         server.register({
-          register: requireCwd(key),
+          register: _.cloneDeep(requireCwd(key)),
           options: value
         }, eachDone);
       }, (err) => {
@@ -152,7 +153,7 @@ module.exports = (Hapi, options, allDone) => {
         delete plugin._priority;
         server.log(['hapi-confi'], { message: 'plugin loaded', plugin: name, options: plugin });
         server.register({
-          register: requireCwd(name),
+          register: _.cloneDeep(requireCwd(name)),
           options: plugin
         }, eachDone);
       }, (err) => {
@@ -165,10 +166,10 @@ module.exports = (Hapi, options, allDone) => {
       if (config.views) {
         _.forIn(config.views.engines, (engine, ext) => {
           if (typeof engine === 'string') {
-            config.views.engines[ext] = requireCwd(engine);
+            config.views.engines[ext] = _.cloneDeep(requireCwd(engine));
           }
         });
-        server.views(config.views);
+        server.views(_.cloneDeep(config.views));
         server.log(['hapi-confi'], { message: 'views configured' });
       }
       done(null, server, config);
