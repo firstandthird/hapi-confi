@@ -64,8 +64,8 @@ lab.test('returns error if it cannot parse any config file ', (done) => {
     done();
   });
 });
-lab.test('vision plugin does not add things to server.settings.app', (done) => {
-  hapiconfi(Hapi, { configPath: `${__dirname}/conf3` }, (err, server) => {
+lab.test('view plugins do not add circular refs to server.settings.app', (done) => {
+  hapiconfi(Hapi, { configPath: `${__dirname}/conf` }, (err, server) => {
     code.expect(err).to.equal(null);
     let success = false;
     try {

@@ -37,7 +37,7 @@ module.exports = (Hapi, options, allDone) => {
     },
     server: ['config', (done, result) => {
       const config = result.config;
-      const serverConfig = _.cloneDeep(config.server || {});
+      const serverConfig = config.server || {};
       const connection = config.connection || {};
       if (serverConfig.cache) {
         serverConfig.cache.engine = requireCwd(serverConfig.cache.engine);
@@ -47,7 +47,7 @@ module.exports = (Hapi, options, allDone) => {
       }
       const server = new Hapi.Server(serverConfig);
       server.connection(connection);
-      server.settings.app = config;
+      server.settings.app = _.cloneDeep(config);
       done(null, server);
     }],
     beforeHook: ['server', (done, result) => {
