@@ -1,4 +1,17 @@
 
+1.0.0 / 2016-05-30
+==================
+
+  * updated confi
+  * clone view before passing to server
+  * verbose logging off by default, with example
+  * confi 2.0.0 added to package, vision added to dev dependencies.
+  * refactor auto statement, added dependency ordering, tests for vision load, updated eslint packages to latest versions
+  * updated to use firstandthird eslint config 2.0.0
+  * eslint-config-firstandthird updated to 2.0.0
+  * es6 config and package files, converted main executables to es6
+  * handles parse errors
+
 0.3.0 / 2016-04-22
 ==================
 
