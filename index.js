@@ -177,12 +177,13 @@ module.exports = (Hapi, options, allDone) => {
       const server = result.server;
       const config = result.config;
       if (config.views) {
-        _.forIn(config.views.engines, (engine, ext) => {
+        const views = _.cloneDeep(config.views);
+        _.forIn(views.engines, (engine, ext) => {
           if (typeof engine === 'string') {
-            config.views.engines[ext] = requireCwd(engine);
+            views.engines[ext] = requireCwd(engine);
           }
         });
-        server.views(config.views);
+        server.views(views);
         log(['hapi-confi'], { message: 'views configured' });
       }
       done(null, server, config);
