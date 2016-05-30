@@ -94,10 +94,10 @@ module.exports = (Hapi, options, allDone) => {
           options: config.logging
         }, (err) => {
           log(['hapi-confi'], { message: 'good reporters loaded', reporters: keys });
-          done(err, server, config);
+          done(err);
         });
       } else {
-        return done(null, server, config);
+        return done();
       }
     }],
     auth: ['log', (done, result) => {
@@ -119,9 +119,7 @@ module.exports = (Hapi, options, allDone) => {
           register: requireCwd(key),
           options: value
         }, eachDone);
-      }, (err) => {
-        done(err, server, config);
-      });
+      }, done);
     }],
     strategies: ['auth', (done, result) => {
       const server = result.server;
@@ -136,7 +134,7 @@ module.exports = (Hapi, options, allDone) => {
         }
         server.auth.strategy(name, value.scheme, value.mode, value.options);
       });
-      done(null, server, config);
+      done();
     }],
     plugins: ['strategies', (done, result) => {
       const server = result.server;
@@ -169,24 +167,23 @@ module.exports = (Hapi, options, allDone) => {
           register: requireCwd(name),
           options: plugin
         }, eachDone);
-      }, (err) => {
-        done(err, server, config);
-      });
+      }, done);
     }],
-    views: ['plugins', 'strategies', 'beforeHook', (done, result) => {
+    views: ['plugins', (done, result) => {
       const server = result.server;
       const config = result.config;
       if (config.views) {
-        const views = _.cloneDeep(config.views);
+        const views = config.views;
         _.forIn(views.engines, (engine, ext) => {
           if (typeof engine === 'string') {
             views.engines[ext] = requireCwd(engine);
           }
         });
+        console.log(views);
         server.views(views);
         log(['hapi-confi'], { message: 'views configured' });
       }
-      done(null, server, config);
+      done();
     }]
   }, (autoErr, result) => {
     if (autoErr) {
