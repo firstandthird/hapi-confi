@@ -39,6 +39,9 @@ module.exports = (Hapi, options, allDone) => {
       }
       try {
         const config = confi(confiOptions);
+        if (config.verbose === true) {
+          options.verbose = true;
+        }
         return done(null, config);
       } catch (exc) {
         return done(exc);
