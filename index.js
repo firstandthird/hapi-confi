@@ -70,7 +70,7 @@ module.exports = (Hapi, options, allDone) => {
       }
       options.before(result.server, result.config, done);
     }],
-    log: ['beforeHook', (done, result) => {
+    logging: ['beforeHook', (done, result) => {
       const server = result.server;
       const config = result.config;
       if (!config.logging) {
@@ -100,43 +100,7 @@ module.exports = (Hapi, options, allDone) => {
         return done();
       }
     }],
-    auth: ['log', (done, result) => {
-      const server = result.server;
-      const config = result.config;
-      if (!config.authPlugins) {
-        return done(null, server, config);
-      }
-      async.forEachOfSeries(config.authPlugins, (value, key, eachDone) => {
-        if (typeof value === 'undefined' || value === null) {
-          value = {};
-        }
-        if (value === false || value._enabled === false) {
-          return eachDone();
-        }
-        delete value._enabled;
-        log(['hapi-confi'], { message: 'auth plugin loaded', plugin: key, options: value });
-        server.register({
-          register: requireCwd(key),
-          options: value
-        }, eachDone);
-      }, done);
-    }],
-    strategies: ['auth', (done, result) => {
-      const server = result.server;
-      const config = result.config;
-      _.forIn(config.strategies, (value, name) => {
-        log(['hapi-confi'], { message: 'strategy loaded', strategy: name, options: value });
-        const profileFn = _.get(value, 'options.provider.profile');
-        if (typeof profileFn === 'string') {
-          value.options.provider.profile = (credentials, params, get, callback) => {
-            server.methods[profileFn](credentials, params, get, callback);
-          };
-        }
-        server.auth.strategy(name, value.scheme, value.mode, value.options);
-      });
-      done();
-    }],
-    plugins: ['strategies', (done, result) => {
+    plugins: ['logging', (done, result) => {
       const server = result.server;
       const config = result.config;
       if (!config.plugins) {
