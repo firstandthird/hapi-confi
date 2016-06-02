@@ -146,7 +146,6 @@ module.exports = (Hapi, options, allDone) => {
             views.engines[ext] = requireCwd(engine);
           }
         });
-        console.log(views);
         server.views(views);
         log(['hapi-confi'], { message: 'views configured' });
       }
