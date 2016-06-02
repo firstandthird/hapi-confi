@@ -1,4 +1,11 @@
 
+2.0.0 / 2016-06-01
+==================
+
+  * if verbose set in config, then set hapi-confi to be verbose
+  * removed authPlugins and strategies. use plugin priority and hapi-strategy-loader as a plugin now
+  * a little bit of housekeeping
+
 1.0.0 / 2016-05-30
 ==================
 
