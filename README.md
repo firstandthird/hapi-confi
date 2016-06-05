@@ -1,4 +1,4 @@
-## hapi-confi
+## hapi-confi   https://travis-ci.org/firstandthird/hapi-confi.svg?branch=master
 
   Set up and run a hapi server using yaml/json files from a config directory
 
@@ -30,13 +30,12 @@ hapiConfi(Hapi, options, function(err, server, config) {
     -  `reporters` -  any 'good-' reporters to use for logging (e.g. good-console)
   - `authPlugins`  - list of auth plugins
   - `strategies`  - list of strategies of the form:
-    - `provider` 
+    - `provider`
       - `scheme`  
       - `mode`
       - `options`
-      - `profile` - 
+      - `profile` -
   - `plugins`  - list of hapi plugins that will be added to your server through hapi.register()
     - `options` - options to pass when the plugin is registered
  - `views`  - list of view engines to register with hapi.views()
   - `engines` - list of modules to import and pass to view
-  
