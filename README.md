@@ -1,4 +1,5 @@
-## hapi-confi   https://travis-ci.org/firstandthird/hapi-confi.svg?branch=master
+## hapi-confi  
+[![Build Status](https://travis-ci.org/firstandthird/hapi-confi.svg?branch=master)](https://travis-ci.org/firstandthird/hapi-confi)
 
   Set up and run a hapi server using yaml/json files from a config directory
 
