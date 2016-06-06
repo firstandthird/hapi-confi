@@ -27,16 +27,6 @@ lab.test('logging is configured ', (done) => {
   });
 });
 
-lab.test('auth is configured ', (done) => {
-  hapiconfi(Hapi, { configPath: `${__dirname}/conf` }, (err, server) => {
-    code.expect(server.auth).to.not.equal(undefined);
-    code.expect(typeof server.auth.scheme).to.equal('function');
-    code.expect(typeof server.auth.default).to.equal('function');
-    code.expect(typeof server.registrations['hapi-auth-cookie']).to.equal('object');
-    done();
-  });
-});
-
 lab.test('plugins are configured ', (done) => {
   hapiconfi(Hapi, { configPath: `${__dirname}/conf` }, (err, server) => {
     code.expect(server.plugins.views).to.not.equal(undefined);
@@ -76,22 +66,6 @@ lab.test('test server can load vision view engine ', (done) => {
     }
     code.expect(success).to.equal(true);
     code.expect(server.registrations.vision).to.not.equal(undefined);
-    done();
-  });
-});
-
-lab.test('strategies are configured ', (done) => {
-  hapiconfi(Hapi, { configPath: `${__dirname}/conf` }, (err, server) => {
-    let success = false;
-    try {
-      // this line should fail:
-      const session = server.settings.app.env.strategies;
-      session.toString();
-      server.auth.strategy('session', 'cookie', 'try', {});
-    } catch (e) {
-      success = true;
-    }
-    code.expect(success).to.equal(true);
     done();
   });
 });
