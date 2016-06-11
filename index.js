@@ -150,6 +150,28 @@ module.exports = (Hapi, options, allDone) => {
         log(['hapi-confi'], { message: 'views configured' });
       }
       done();
+    }],
+    assets: ['plugins', (done, results) => {
+      const assetConfig = results.config.assets;
+      if (assetConfig) {
+        //TODO: check if inert is loaded
+        //TODO: cache support
+        results.server.route({
+          path: `${assetConfig.endpoint}/{path*}`,
+          method: 'GET',
+          handler: {
+            directory: {
+              path: assetConfig.path
+            }
+          }
+        });
+        log(['hapi-confi'], {
+          message: 'assets configured',
+          endpoint: assetConfig.endpoint,
+          path: assetConfig.path
+        });
+      }
+      done();
     }]
   }, (autoErr, result) => {
     if (autoErr) {
