@@ -4,7 +4,7 @@
   "description": "Set up hapi from a config file",
   "main": "index.js",
   "scripts": {
-    "test": "lab -t 100 -e \"\" test",
+    "test": "lab -e \"\" test",
     "lint": "eslint ."
   },
   "repository": {
