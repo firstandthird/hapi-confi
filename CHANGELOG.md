@@ -1,4 +1,13 @@
 
+2.1.0 / 2016-06-11
+==================
+
+  * added support for assets in config for static file serving (needs inert loaded)
+  * removed 'auth' and 'strategy' tests
+  * readme badge changed to markdown markdown
+  * travisci badge added to readme, travis covers node version 4,5,6
+  * travis file
+
 2.0.0 / 2016-06-01
 ==================
 
