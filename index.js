@@ -160,6 +160,9 @@ module.exports = (Hapi, options, allDone) => {
         results.server.route({
           path: `${assetConfig.endpoint}/{path*}`,
           method: 'GET',
+          config: {
+            auth: false
+          },
           handler: {
             directory: {
               path: assetConfig.path
