@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 'use strict';
 const confi = require('confi');
 const async = require('async');
@@ -16,9 +17,9 @@ const cwd = process.cwd();
 
 const requireCwd = (req) => {
   if (req[0] === '.') {
-    return require(path.join(cwd, req));
+    return require(path.join(cwd, req)); // eslint-disable-line global-require
   }
-  return require(req);
+  return require(req); // eslint-disable-line global-require
 };
 
 module.exports = (Hapi, options, allDone) => {
