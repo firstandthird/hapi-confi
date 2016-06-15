@@ -157,12 +157,14 @@ module.exports = (Hapi, options, allDone) => {
       if (assetConfig && assetConfig.endpoint) {
         //TODO: check if inert is loaded
         //TODO: cache support
+        if (!assetConfig.routeConfig) {
+          assetConfig.routeConfig = {};
+        }
+        assetConfig.routeConfig.auth = false;
         results.server.route({
           path: `${assetConfig.endpoint}/{path*}`,
           method: 'GET',
-          config: {
-            auth: false
-          },
+          config: assetConfig.routeConfig,
           handler: {
             directory: {
               path: assetConfig.path
