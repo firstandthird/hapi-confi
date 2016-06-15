@@ -154,7 +154,7 @@ module.exports = (Hapi, options, allDone) => {
     }],
     assets: ['plugins', (done, results) => {
       const assetConfig = results.config.assets;
-      if (assetConfig) {
+      if (assetConfig && assetConfig.endpoint) {
         //TODO: check if inert is loaded
         //TODO: cache support
         results.server.route({
