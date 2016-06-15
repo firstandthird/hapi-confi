@@ -1,4 +1,10 @@
 
+2.2.0 / 2016-06-15
+==================
+
+  * be able to set routeConfig on assets
+  * additional check for endpoint when loading assetConfig
+
 2.1.1 / 2016-06-12
 ==================
 
