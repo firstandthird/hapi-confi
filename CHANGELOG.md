@@ -1,4 +1,35 @@
 
+2.3.1 / 2016-10-21
+==================
+
+  * updated confi
+
+2.3.0 / 2016-10-21
+==================
+
+  * updated confi
+
+2.2.0 / 2016-06-15
+==================
+
+  * be able to set routeConfig on assets
+  * additional check for endpoint when loading assetConfig
+
+2.1.1 / 2016-06-12
+==================
+
+  * set auth: false on assets
+  * eslint fixes
+
+2.1.0 / 2016-06-11
+==================
+
+  * added support for assets in config for static file serving (needs inert loaded)
+  * removed 'auth' and 'strategy' tests
+  * readme badge changed to markdown markdown
+  * travisci badge added to readme, travis covers node version 4,5,6
+  * travis file
+
 2.0.0 / 2016-06-01
 ==================
 

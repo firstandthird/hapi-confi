@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 'use strict';
 const confi = require('confi');
 const async = require('async');
@@ -17,9 +18,9 @@ const cwd = process.cwd();
 
 const requireCwd = (req) => {
   if (req[0] === '.') {
-    return require(path.join(cwd, req));
+    return require(path.join(cwd, req)); // eslint-disable-line global-require
   }
-  return require(req);
+  return require(req); // eslint-disable-line global-require
 };
 
 module.exports = (Hapi, options, allDone) => {
@@ -167,6 +168,33 @@ module.exports = (Hapi, options, allDone) => {
         });
         server.views(views);
         log(['hapi-confi'], { message: 'views configured' });
+      }
+      done();
+    }],
+    assets: ['plugins', (done, results) => {
+      const assetConfig = results.config.assets;
+      if (assetConfig && assetConfig.endpoint) {
+        //TODO: check if inert is loaded
+        //TODO: cache support
+        if (!assetConfig.routeConfig) {
+          assetConfig.routeConfig = {};
+        }
+        assetConfig.routeConfig.auth = false;
+        results.server.route({
+          path: `${assetConfig.endpoint}/{path*}`,
+          method: 'GET',
+          config: assetConfig.routeConfig,
+          handler: {
+            directory: {
+              path: assetConfig.path
+            }
+          }
+        });
+        log(['hapi-confi'], {
+          message: 'assets configured',
+          endpoint: assetConfig.endpoint,
+          path: assetConfig.path
+        });
       }
       done();
     }]
