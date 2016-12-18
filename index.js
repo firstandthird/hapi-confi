@@ -9,10 +9,10 @@ const Deptree = require('deptree');
 let log = () => {
   // stubbed function
 };
+
 const defaults = {
   verbose: false
 };
-
 
 const cwd = process.cwd();
 
@@ -131,7 +131,7 @@ module.exports = (Hapi, options, allDone) => {
       pluginArr.forEach((plugin) => {
         // priority is deprecated:
         if (plugin._priority) {
-          server.log(['error', 'hapi-confi'], `WARNING: '_priority' field is deprecated, please migrate your plugins to use the _dependencies format`);
+          server.log(['error', 'hapi-confi'], `WARNING: '_priority' field used by ${plugin._name} is deprecated, please migrate your plugins to use the _dependencies format`);
         }
         deptree.add(plugin._name, plugin._dependencies ? plugin._dependencies : []);
       });

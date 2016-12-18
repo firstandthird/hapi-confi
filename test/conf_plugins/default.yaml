@@ -12,6 +12,10 @@ logging:
 authPlugins:
   hapi-auth-cookie:
 plugins:
+  hapi-route-loader:
+    path: '{{CWD}}/test/routes'
+    _dependencies:
+      - 'inert'
   hapi-password:
     _dependencies:
       - 'hapi-csp-mixed'
@@ -19,7 +23,7 @@ plugins:
     _dependencies:
       - 'hapi-password'
   hapi-csp-mixed:
-    _priority: -100
+  inert:
 views:
   engines:
     html: 'handlebars'
