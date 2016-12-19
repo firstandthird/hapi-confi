@@ -4,7 +4,7 @@
   "description": "Set up hapi from a config file",
   "main": "index.js",
   "scripts": {
-    "test": "lab -e \"\" test",
+    "test": "lab -e \"\" test --leaks",
     "lint": "eslint ."
   },
   "repository": {
@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/firstandthird/hapi-confi#readme",
   "dependencies": {
-    "async": "^1.5.2",
+    "async": "^2.1.4",
     "confi": "3.1.1",
     "lodash": "^4.11.1"
   },
