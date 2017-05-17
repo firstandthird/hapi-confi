@@ -37,6 +37,9 @@ module.exports = (Hapi, options, allDone) => {
       if (options.env) {
         confiOptions.env = options.env;
       }
+      if (options.context) {
+        confiOptions.context = options.context;
+      }
       confi(confiOptions, (err, config) => {
         if (err) {
           return done(err);
