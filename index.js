@@ -12,7 +12,6 @@ const defaults = {
   verbose: false
 };
 
-
 const cwd = process.cwd();
 
 const requireCwd = (req) => {
@@ -38,15 +37,15 @@ module.exports = (Hapi, options, allDone) => {
       if (options.env) {
         confiOptions.env = options.env;
       }
-      try {
-        const config = confi(confiOptions);
+      confi(confiOptions, (err, config) => {
+        if (err) {
+          return done(err);
+        }
         if (config.verbose === true) {
           options.verbose = true;
         }
         return done(null, config);
-      } catch (exc) {
-        return done(exc);
-      }
+      });
     },
     server: (config, done) => {
       const serverConfig = _.cloneDeep(config.server || {});
