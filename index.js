@@ -32,7 +32,10 @@ module.exports = (Hapi, options, allDone) => {
   async.autoInject({
     config: (done) => {
       const confiOptions = {
-        path: options.configPath
+        path: options.configPath,
+        file: options.configFile,
+        url: options.configUrl,
+        envVars: options.envPrefix || 'hapi'
       };
       if (options.env) {
         confiOptions.env = options.env;
