@@ -158,9 +158,13 @@ module.exports = (Hapi, options, allDone) => {
         if (!assetConfig.routeConfig) {
           assetConfig.routeConfig = {};
         }
+        let endpoint = assetConfig.endpoint;
+        if (config.routePrefix) {
+          endpoint = `${config.routePrefix}${endpoint}`;
+        }
         assetConfig.routeConfig.auth = false;
         server.route({
-          path: `${assetConfig.endpoint}/{path*}`,
+          path: `${endpoint}/{path*}`,
           method: 'GET',
           config: assetConfig.routeConfig,
           handler: {
@@ -171,7 +175,7 @@ module.exports = (Hapi, options, allDone) => {
         });
         log(['hapi-confi'], {
           message: 'assets configured',
-          endpoint: assetConfig.endpoint,
+          endpoint,
           path: assetConfig.path
         });
       }
