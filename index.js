@@ -175,7 +175,7 @@ module.exports = (Hapi, options, allDone) => {
         });
         log(['hapi-confi'], {
           message: 'assets configured',
-          endpoint: assetConfig.endpoint,
+          endpoint,
           path: assetConfig.path
         });
       }
