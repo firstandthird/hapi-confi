@@ -158,9 +158,13 @@ module.exports = (Hapi, options, allDone) => {
         if (!assetConfig.routeConfig) {
           assetConfig.routeConfig = {};
         }
+        let endpoint = asseteConfig.endpoint;
+        if (process.env.PATH_PREFIX) {
+          endpoint = `${process.env.PATH_PREFIX}${endpoint}`;
+        }
         assetConfig.routeConfig.auth = false;
         server.route({
-          path: `${assetConfig.endpoint}/{path*}`,
+          path: `${endpoint}/{path*}`,
           method: 'GET',
           config: assetConfig.routeConfig,
           handler: {
