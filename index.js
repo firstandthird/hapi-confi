@@ -31,26 +31,31 @@ module.exports = (Hapi, options, allDone) => {
   options = _.defaults(options, defaults);
   options.configPath = options.configPath || `${cwd}/conf`;
 
-  async.auto({
+  async.autoInject({
     config: (done) => {
       const confiOptions = {
-        path: options.configPath
+        path: options.configPath,
+        file: options.configFile,
+        url: options.configUrl,
+        envVars: options.envPrefix || 'hapi'
       };
       if (options.env) {
         confiOptions.env = options.env;
       }
-      try {
-        const config = confi(confiOptions);
+      if (options.context) {
+        confiOptions.context = options.context;
+      }
+      confi(confiOptions, (err, config) => {
+        if (err) {
+          return done(err);
+        }
         if (config.verbose === true) {
           options.verbose = true;
         }
         return done(null, config);
-      } catch (exc) {
-        return done(exc);
-      }
+      });
     },
-    server: ['config', (done, result) => {
-      const config = result.config;
+    server: (config, done) => {
       const serverConfig = _.cloneDeep(config.server || {});
       const connection = config.connection || {};
       if (serverConfig.cache) {
@@ -68,16 +73,14 @@ module.exports = (Hapi, options, allDone) => {
       server.connection(connection);
       server.settings.app = config;
       done(null, server);
-    }],
-    beforeHook: ['server', (done, result) => {
+    },
+    beforeHook: (server, config, done) => {
       if (typeof options.before !== 'function') {
         return done();
       }
-      options.before(result.server, result.config, done);
-    }],
-    logging: ['beforeHook', (done, result) => {
-      const server = result.server;
-      const config = result.config;
+      options.before(server, config, done);
+    },
+    logging: (server, config, beforeHook, done) => {
       if (!config.logging) {
         return done(null, server, config);
       }
@@ -104,10 +107,8 @@ module.exports = (Hapi, options, allDone) => {
       } else {
         return done();
       }
-    }],
-    plugins: ['logging', (done, result) => {
-      const server = result.server;
-      const config = result.config;
+    },
+    plugins: (server, config, logging, done) => {
       if (!config.plugins) {
         return done(null, server, config);
       }
@@ -155,10 +156,8 @@ module.exports = (Hapi, options, allDone) => {
           options: plugin
         }, eachDone);
       }, done);
-    }],
-    views: ['plugins', (done, result) => {
-      const server = result.server;
-      const config = result.config;
+    },
+    views: (server, config, plugins, done) => {
       if (config.views) {
         const views = config.views;
         _.forIn(views.engines, (engine, ext) => {
@@ -170,18 +169,22 @@ module.exports = (Hapi, options, allDone) => {
         log(['hapi-confi'], { message: 'views configured' });
       }
       done();
-    }],
-    assets: ['plugins', (done, results) => {
-      const assetConfig = results.config.assets;
+    },
+    assets: (server, config, plugins, done) => {
+      const assetConfig = config.assets;
       if (assetConfig && assetConfig.endpoint) {
         //TODO: check if inert is loaded
         //TODO: cache support
         if (!assetConfig.routeConfig) {
           assetConfig.routeConfig = {};
         }
+        let endpoint = assetConfig.endpoint;
+        if (config.routePrefix) {
+          endpoint = `${config.routePrefix}${endpoint}`;
+        }
         assetConfig.routeConfig.auth = false;
-        results.server.route({
-          path: `${assetConfig.endpoint}/{path*}`,
+        server.route({
+          path: `${endpoint}/{path*}`,
           method: 'GET',
           config: assetConfig.routeConfig,
           handler: {
@@ -192,12 +195,12 @@ module.exports = (Hapi, options, allDone) => {
         });
         log(['hapi-confi'], {
           message: 'assets configured',
-          endpoint: assetConfig.endpoint,
+          endpoint,
           path: assetConfig.path
         });
       }
       done();
-    }]
+    }
   }, (autoErr, result) => {
     if (autoErr) {
       return allDone(autoErr);

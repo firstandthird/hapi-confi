@@ -1,6 +1,6 @@
 {
   "name": "hapi-confi",
-  "version": "2.3.1",
+  "version": "4.1.0",
   "description": "Set up hapi from a config file",
   "main": "index.js",
   "scripts": {
@@ -23,9 +23,9 @@
   },
   "homepage": "https://github.com/firstandthird/hapi-confi#readme",
   "dependencies": {
-    "async": "^1.5.2",
-    "confi": "3.1.1",
     "deptree": "^1.0.0",
+    "async": "^2.1.4",
+    "confi": "^6.1.0",
     "lodash": "^4.11.1"
   },
   "devDependencies": {

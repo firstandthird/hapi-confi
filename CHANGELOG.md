@@ -1,4 +1,11 @@
 
+3.0.0 / 2017-02-08
+==================
+
+  * updated to confi 5
+  * update lint, add node 6.  fix param order
+  * update async and switch to superior 'autoInject'
+
 2.3.1 / 2016-10-21
 ==================
 
