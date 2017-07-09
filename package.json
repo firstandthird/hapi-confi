@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/firstandthird/hapi-confi#readme",
   "dependencies": {
+    "deptree": "^1.0.0",
     "async": "^2.1.4",
     "confi": "^6.1.0",
     "lodash": "^4.11.1"
@@ -36,9 +37,12 @@
     "good-console": "^5.1.0",
     "handlebars": "^4.0.5",
     "hapi": "^10.1.0",
-    "hapi-auth-cookie": "^5.0.0",
+    "hapi-csp-mixed": "^1.0.0",
     "hapi-favicon": "0.0.2",
+    "hapi-password": "^2.2.0",
+    "hapi-route-loader": "^2.1.0",
     "hapi-views": "0.0.1",
+    "inert": "^4.0.3",
     "lab": "^8.0.2",
     "vision": "^4.1.0"
   }

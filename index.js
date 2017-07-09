@@ -4,10 +4,12 @@ const confi = require('confi');
 const async = require('async');
 const _ = require('lodash');
 const path = require('path');
+const Deptree = require('deptree');
 
 let log = () => {
   // stubbed function
 };
+
 const defaults = {
   verbose: false
 };
@@ -124,7 +126,25 @@ module.exports = (Hapi, options, allDone) => {
         value._name = key;
         pluginArr.push(value);
       });
-      pluginArr = _.sortBy(pluginArr, '_priority');
+      // use deptree to resolve the order in which the plugins load
+      // based on their _dependencies:
+      const deptree = new Deptree();
+      pluginArr.forEach((plugin) => {
+        // priority is deprecated:
+        if (plugin._priority) {
+          server.log(['error', 'hapi-confi'], `WARNING: '_priority' field used by ${plugin._name} is deprecated, please migrate your plugins to use the _dependencies format`);
+        }
+        deptree.add(plugin._name, plugin._dependencies ? plugin._dependencies : []);
+      });
+      pluginArr = _.reduce(deptree.resolve(), (memo, pluginName) => {
+        for (let i = 0; i < pluginArr.length; i++) {
+          if (pluginName === pluginArr[i]._name) {
+            memo.push(pluginArr[i]);
+            return memo;
+          }
+        }
+      }, []);
+      // now that dependency is resolved, load the plugins in correct order:
       async.eachSeries(pluginArr, (plugin, eachDone) => {
         const name = plugin._name;
         delete plugin._name;

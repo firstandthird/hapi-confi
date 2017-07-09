@@ -1,0 +1,7 @@
+plugins:
+  hapi-route-loader:
+    path: '{{CWD}}/test/routes'
+  hapi-route-loader:
+    path: '{{CWD}}/test/routes'
+    _dependencies:
+      - 'hapi-password'

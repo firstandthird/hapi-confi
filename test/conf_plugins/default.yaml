@@ -1,0 +1,45 @@
+server:
+  debug:
+    request:
+      - "error"
+      - "hapi-confi"
+host: "localhost"
+logging:
+  reporters:
+    console:
+      events:
+        log: '*'
+authPlugins:
+  hapi-auth-cookie:
+plugins:
+  hapi-route-loader:
+    path: '{{CWD}}/test/routes'
+    _dependencies:
+      - 'inert'
+  hapi-password:
+    _dependencies:
+      - 'hapi-csp-mixed'
+  hapi-views:
+    _dependencies:
+      - 'hapi-password'
+  hapi-csp-mixed:
+  inert:
+views:
+  engines:
+    html: 'handlebars'
+before:
+  test:
+auth:
+  account: '/account/'
+  url: '/login/?redirect=/auth?next='
+  logoutRedirectUrl: '/?logout&redirect=/'
+strategies:
+  session:
+    scheme: 'cookie'
+    mode: 'try'
+    options:
+      password: 'asdf'
+      cookie: 'li-sid'
+      isSecure: false
+      clearInvalid: true
+      appendNext: true
