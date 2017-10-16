@@ -15,7 +15,7 @@ lab.test('tests default ', (done) => {
 });
 
 lab.test('tests default with context', (done) => {
-  hapiconfi(Hapi, { configPath: `${__dirname}/conf`, context: { blah: 'hoover' } }, (err, server) => {
+  hapiconfi(Hapi, { configPath: `${__dirname}/conf`, config: { blah: 'hoover' } }, (err, server) => {
     code.expect(err).to.equal(null);
     code.expect(server.settings.app.blah).to.equal('hoover');
     code.expect(server.settings.app.math1).to.equal(50);

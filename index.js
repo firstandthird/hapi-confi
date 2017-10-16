@@ -40,6 +40,9 @@ module.exports = (Hapi, options, allDone) => {
       if (options.env) {
         confiOptions.env = options.env;
       }
+      if (options.config) {
+        confiOptions.config = options.config;
+      }
       if (options.context) {
         confiOptions.context = options.context;
       }
