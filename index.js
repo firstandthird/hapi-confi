@@ -4,6 +4,7 @@ const confi = require('confi');
 const async = require('async');
 const _ = require('lodash');
 const path = require('path');
+const aug = require('aug');
 
 let log = () => {
   // stubbed function
@@ -26,7 +27,7 @@ module.exports = (Hapi, options, allDone) => {
     allDone = options;
     options = {};
   }
-  options = _.defaults(options, defaults);
+  options = aug(options, defaults);
   options.configPath = options.configPath || `${cwd}/conf`;
 
   async.autoInject({
@@ -57,7 +58,7 @@ module.exports = (Hapi, options, allDone) => {
       });
     },
     server: (config, done) => {
-      const serverConfig = _.cloneDeep(config.server || {});
+      const serverConfig = aug(config.server || {});
       const connection = config.connection || {};
       if (serverConfig.cache) {
         serverConfig.cache.engine = requireCwd(serverConfig.cache.engine);
@@ -142,7 +143,7 @@ module.exports = (Hapi, options, allDone) => {
     },
     views: (server, config, plugins, done) => {
       if (config.views) {
-        const views = config.views;
+        const views = aug(config.views);
         _.forIn(views.engines, (engine, ext) => {
           if (typeof engine === 'string') {
             views.engines[ext] = requireCwd(engine);

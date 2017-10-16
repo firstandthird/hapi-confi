@@ -24,6 +24,7 @@
   "homepage": "https://github.com/firstandthird/hapi-confi#readme",
   "dependencies": {
     "async": "^2.5.0",
+    "aug": "^2.0.0",
     "confi": "^8.0.1",
     "lodash": "^4.11.1"
   },
