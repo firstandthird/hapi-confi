@@ -30,8 +30,19 @@ module.exports = (Hapi, options, allDone) => {
   options = aug(options, defaults);
   options.configPath = options.configPath || `${cwd}/conf`;
 
+  let _server = null;
+
   async.autoInject({
-    config: (done) => {
+    helpers(done) {
+      done(null, {
+        serverMethod(name) {
+          return function(...args) {
+            _server.methods[name].apply(_server, ...args);
+          };
+        }
+      });
+    },
+    config: (helpers, done) => {
       const confiOptions = {
         path: options.configPath,
         file: options.configFile,
@@ -47,6 +58,7 @@ module.exports = (Hapi, options, allDone) => {
       if (options.context) {
         confiOptions.context = options.context;
       }
+      confiOptions.helpers = helpers;
       confi(confiOptions, (err, config) => {
         if (err) {
           return done(err);
@@ -67,6 +79,7 @@ module.exports = (Hapi, options, allDone) => {
         connection.port = process.env.PORT;
       }
       const server = new Hapi.Server(serverConfig);
+      _server = server;
       if (options.verbose) {
         log = (tags, msg) => {
           server.log(tags, msg);

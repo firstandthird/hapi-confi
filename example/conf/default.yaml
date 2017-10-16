@@ -13,3 +13,5 @@ plugins:
   hapi-views:
   hapi-favicon:
     _priority: -1
+
+method: '{{serverMethod("add")}}'
