@@ -25,10 +25,16 @@ hapiConfi(Hapi, options, (err, server) => {
     }
   });
   server.route({
+    path: '/1d',
+    method: 'get',
+    handler: (request, reply) => {
+      reply(null, request.server.settings.app.oneDay);
+    }
+  });
+  server.route({
     path: '/method',
     method: 'get',
     handler: (request, reply) => {
-      console.log(request.server.settings.app);
       request.server.settings.app.method(1, 2, reply);
     }
   });
