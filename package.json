@@ -26,7 +26,7 @@
   "dependencies": {
     "async": "^2.5.0",
     "aug": "^2.0.0",
-    "confi": "^8.0.1",
+    "confi": "^8.0.2",
     "lodash": "^4.11.1"
   },
   "devDependencies": {
