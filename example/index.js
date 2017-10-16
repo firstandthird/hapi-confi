@@ -11,11 +11,25 @@ const options = {
 
 // 'server' will be a fully-configured hapi server!
 hapiConfi(Hapi, options, (err, server) => {
+  if (err) {
+    throw err;
+  }
+  server.method('add', (a, b, done) => {
+    done(null, a + b);
+  });
   server.route({
     path: '/',
     method: 'get',
     handler: (request, reply) => {
-      reply('ok');
+      request.server.methods.add(1, 2, reply);
+    }
+  });
+  server.route({
+    path: '/method',
+    method: 'get',
+    handler: (request, reply) => {
+      console.log(request.server.settings.app);
+      request.server.settings.app.method(1, 2, reply);
     }
   });
   server.start((startErr) => {

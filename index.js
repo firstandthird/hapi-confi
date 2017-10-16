@@ -82,35 +82,7 @@ module.exports = (Hapi, options, allDone) => {
       }
       options.before(server, config, done);
     },
-    logging: (server, config, beforeHook, done) => {
-      if (!config.logging) {
-        return done(null, server, config);
-      }
-      const reporters = [];
-      const keys = [];
-      _.forIn(config.logging.reporters, (value, key) => {
-        if (value === false || value._enabled === false) {
-          return;
-        }
-        delete value._enabled;
-        keys.push(key);
-        value.reporter = requireCwd(`good-${key}`);
-        reporters.push(value);
-      });
-      if (reporters.length !== 0) {
-        config.logging.reporters = reporters;
-        server.register({
-          register: requireCwd('good'),
-          options: config.logging
-        }, (err) => {
-          log(['hapi-confi'], { message: 'good reporters loaded', reporters: keys });
-          done(err);
-        });
-      } else {
-        return done();
-      }
-    },
-    plugins: (server, config, logging, done) => {
+    plugins: (server, config, done) => {
       if (!config.plugins) {
         return done(null, server, config);
       }
@@ -149,6 +121,12 @@ module.exports = (Hapi, options, allDone) => {
             views.engines[ext] = requireCwd(engine);
           }
         });
+        if (!views.context) {
+          views.context = {};
+        }
+        if (config.routePrefix) {
+          views.context.routePrefix = config.routePrefix;
+        }
         server.views(views);
         log(['hapi-confi'], { message: 'views configured' });
       }
