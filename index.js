@@ -72,11 +72,11 @@ module.exports = (Hapi, options, allDone) => {
     server: (config, done) => {
       const serverConfig = aug(config.server || {});
       const connection = config.connection || {};
-      if (serverConfig.cache && serverConfig.cache.enabled === false) {
-        // remove cache if not being used to avoid hapi errors:
-        delete serverConfig.cache;
-      } else {
-        if (serverConfig.cache) {
+      if (serverConfig.cache) {
+        if (serverConfig.cache.enabled === false) {
+          // remove cache if not being used to avoid hapi errors:
+          delete serverConfig.cache;
+        } else {
           serverConfig.cache.engine = requireCwd(serverConfig.cache.engine);
         }
       }
