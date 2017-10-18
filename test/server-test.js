@@ -17,6 +17,13 @@ lab.test('test server is initialized ', (done) => {
   });
 });
 
+lab.test('cache.enabled will disable cache ', (done) => {
+  hapiconfi(Hapi, { configPath: `${__dirname}/conf4` }, (err, server) => {
+    code.expect(err).to.equal(null);
+    done();
+  });
+});
+
 lab.test('logging is configured ', (done) => {
   hapiconfi(Hapi, { configPath: `${__dirname}/conf` }, (err, server) => {
     code.expect(typeof server.registrations.good).to.equal('object');

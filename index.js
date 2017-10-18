@@ -74,9 +74,7 @@ module.exports = (Hapi, options, allDone) => {
       const connection = config.connection || {};
       if (serverConfig.cache && serverConfig.cache.enabled === false) {
         // remove cache if not being used to avoid hapi errors:
-        if (serverConfig.cache) {
-          delete serverConfig.cache;
-        }
+        delete serverConfig.cache;
       } else {
         if (serverConfig.cache) {
           serverConfig.cache.engine = requireCwd(serverConfig.cache.engine);
