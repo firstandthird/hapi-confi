@@ -73,7 +73,12 @@ module.exports = (Hapi, options, allDone) => {
       const serverConfig = aug(config.server || {});
       const connection = config.connection || {};
       if (serverConfig.cache) {
-        serverConfig.cache.engine = requireCwd(serverConfig.cache.engine);
+        if (serverConfig.cache.enabled === false) {
+          // remove cache if not being used to avoid hapi errors:
+          delete serverConfig.cache;
+        } else {
+          serverConfig.cache.engine = requireCwd(serverConfig.cache.engine);
+        }
       }
       if (process.env.PORT) {
         connection.port = process.env.PORT;
