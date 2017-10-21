@@ -145,8 +145,10 @@ module.exports = (Hapi, options, allDone) => {
         if (config.routePrefix) {
           views.context.routePrefix = config.routePrefix;
         }
-        server.views(views);
-        log(['hapi-confi'], { message: 'views configured' });
+        if (typeof server.views === 'function') {
+          server.views(views);
+          log(['hapi-confi'], { message: 'views configured' });
+        }
       }
       done();
     },
