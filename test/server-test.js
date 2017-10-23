@@ -24,23 +24,6 @@ lab.test('cache.enabled will disable cache ', (done) => {
   });
 });
 
-lab.test('logging is configured ', (done) => {
-  hapiconfi(Hapi, { configPath: `${__dirname}/conf` }, (err, server) => {
-    code.expect(typeof server.registrations.good).to.equal('object');
-    code.expect(typeof server.registrations.good.options.reporters).to.equal('object');
-    code.expect(server.registrations.good.options.reporters.length).to.equal(1);
-    code.expect(server.registrations.good.options.reporters[0].events.log).to.equal('*');
-    done();
-  });
-});
-
-lab.test('plugins are configured ', (done) => {
-  hapiconfi(Hapi, { configPath: `${__dirname}/conf` }, (err, server) => {
-    code.expect(server.plugins.views).to.not.equal(undefined);
-    done();
-  });
-});
-
 lab.test('views are configured ', (done) => {
   hapiconfi(Hapi, { configPath: `${__dirname}/conf` }, (err, server) => {
     let success = false;
