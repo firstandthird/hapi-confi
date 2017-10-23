@@ -20,6 +20,7 @@ authPlugins:
   hapi-auth-cookie:
 
 plugins:
+  vision:
   hapi-views:
 views:
   engines:

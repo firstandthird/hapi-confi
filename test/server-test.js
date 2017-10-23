@@ -24,13 +24,6 @@ lab.test('cache.enabled will disable cache ', (done) => {
   });
 });
 
-lab.test('plugins are configured ', (done) => {
-  hapiconfi(Hapi, { configPath: `${__dirname}/conf` }, (err, server) => {
-    code.expect(server.plugins.views).to.not.equal(undefined);
-    done();
-  });
-});
-
 lab.test('views are configured ', (done) => {
   hapiconfi(Hapi, { configPath: `${__dirname}/conf` }, (err, server) => {
     let success = false;
