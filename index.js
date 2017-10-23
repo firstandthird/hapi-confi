@@ -146,7 +146,7 @@ module.exports = (Hapi, options, allDone) => {
           views.context.routePrefix = config.routePrefix;
         }
         server.views(views);
-        return done(null, views);
+        log(['hapi-confi'], { message: 'views configured' });
       }
       done();
     },
