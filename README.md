@@ -1,4 +1,6 @@
 ## hapi-confi  
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/firstandthird/hapi-confi.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.org/firstandthird/hapi-confi.svg?branch=master)](https://travis-ci.org/firstandthird/hapi-confi)
 
   Set up and run a hapi server using yaml/json files from a config directory
