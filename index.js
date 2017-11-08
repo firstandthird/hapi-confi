@@ -37,7 +37,7 @@ module.exports = (Hapi, options, allDone) => {
       done(null, {
         serverMethod(name) {
           return function(...args) {
-            _server.methods[name].apply(_server, args);
+            return _server.methods[name].apply(_server, args);
           };
         }
       });
