@@ -4,18 +4,18 @@ const Hapi = require('hapi');
 const code = require('code');
 const lab = exports.lab = require('lab').script();
 
-lab.test('test server is initialized ', async() => {
-  const server = await hapiconfi(Hapi, { configPath: `${__dirname}/conf` });
+lab.test('test server is initialized ', async () => {
+  const { server, config } = await hapiconfi(Hapi, { configPath: `${__dirname}/conf` });
   await server.start();
   await server.stop();
 });
 
 lab.test('cache.enabled will disable cache ', async() => {
-  const server = await hapiconfi(Hapi, { configPath: `${__dirname}/conf4` });
+  const { server, config } = await hapiconfi(Hapi, { configPath: `${__dirname}/conf4` });
 });
 
 lab.test('views are configured ', async() => {
-  const server = await hapiconfi(Hapi, { configPath: `${__dirname}/conf` });
+  const { server, config } = await hapiconfi(Hapi, { configPath: `${__dirname}/conf` });
   let success = false;
   try {
     server.views({
@@ -30,7 +30,7 @@ lab.test('views are configured ', async() => {
 });
 
 lab.test('test server can load vision view engine ', async() => {
-  const server = await hapiconfi(Hapi, { configPath: `${__dirname}/conf3` });
+  const { server, config } = await hapiconfi(Hapi, { configPath: `${__dirname}/conf3` });
   let success = false;
   try {
     server.views({
