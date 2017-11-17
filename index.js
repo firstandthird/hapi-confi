@@ -5,7 +5,7 @@ const async = require('async');
 const _ = require('lodash');
 const path = require('path');
 const aug = require('aug');
-
+const util = require('util');
 let log = () => {
   // stubbed function
 };
@@ -22,7 +22,7 @@ const requireCwd = (req) => {
   return require(req); // eslint-disable-line global-require
 };
 
-module.exports = (Hapi, options, allDone) => {
+module.exports = util.promisify((Hapi, options, allDone) => {
   if (typeof options === 'function') {
     allDone = options;
     options = {};
@@ -71,7 +71,10 @@ module.exports = (Hapi, options, allDone) => {
     },
     server: (config, done) => {
       const serverConfig = aug(config.server || {});
-      const connection = config.connection || {};
+      //
+      //
+      // do we need this?
+      // const connection = config.connection || {};
       if (serverConfig.cache) {
         if (serverConfig.cache.enabled === false) {
           // remove cache if not being used to avoid hapi errors:
@@ -81,7 +84,7 @@ module.exports = (Hapi, options, allDone) => {
         }
       }
       if (process.env.PORT) {
-        connection.port = process.env.PORT;
+        serverConfig.port = process.env.PORT;
       }
       const server = new Hapi.Server(serverConfig);
       _server = server;
@@ -90,7 +93,6 @@ module.exports = (Hapi, options, allDone) => {
           server.log(tags, msg);
         };
       }
-      server.connection(connection);
       server.settings.app = config;
       done(null, server);
     },
@@ -119,17 +121,18 @@ module.exports = (Hapi, options, allDone) => {
         pluginArr.push(value);
       });
       pluginArr = _.sortBy(pluginArr, '_priority');
-      async.eachSeries(pluginArr, (plugin, eachDone) => {
+      pluginArr.forEach(async (plugin) => {
         const name = plugin._name;
         delete plugin._name;
         delete plugin._enabled;
         delete plugin._priority;
         log(['hapi-confi'], { message: 'plugin loaded', plugin: name, options: plugin });
-        server.register({
-          register: requireCwd(name),
+        await server.register({
+          plugin: requireCwd(name),
           options: plugin
-        }, eachDone);
-      }, done);
+        });
+      });
+      done();
     },
     views: (server, config, plugins, done) => {
       if (config.views) {
@@ -187,4 +190,4 @@ module.exports = (Hapi, options, allDone) => {
     }
     allDone(null, result.server, result.config);
   });
-};
+});

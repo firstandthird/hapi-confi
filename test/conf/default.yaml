@@ -21,7 +21,6 @@ authPlugins:
 
 plugins:
   vision:
-  hapi-views:
 views:
   engines:
     html: 'handlebars'
