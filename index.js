@@ -23,12 +23,11 @@ const requireCwd = (req) => {
 
 const cwd = process.cwd();
 
-module.exports = util.promisify(async (Hapi, options, allDone) => {
-  if (typeof options === 'function') {
-    allDone = options;
-    options = {};
-  }
-  options = aug(options, defaults);
+module.exports = async (Hapi, options) => {
+  // if (!options) {
+  //   options = {};
+  // }
+  options = aug({}, options, defaults);
   options.configPath = options.configPath || `${cwd}/conf`;
 
   let _server = null;
@@ -71,5 +70,5 @@ module.exports = util.promisify(async (Hapi, options, allDone) => {
   // register all asset routes:
   await require('./lib/assets.js')(server, config, plugins, log);
 
-  return allDone(null, { server, config });
-});
+  return Promise.resolve({ server, config });
+};
