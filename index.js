@@ -64,11 +64,11 @@ module.exports = async (Hapi, options) => {
   const plugins = await require('./lib/plugins.js')(server, config, log, requireCwd);
 
   // register all views:
-  await require('./lib/views.js')(server, config, plugins, requireCwd);
+  require('./lib/views.js')(server, config, plugins, requireCwd);
   log(['hapi-confi'], { message: 'views configured' });
 
   // register all asset routes:
-  await require('./lib/assets.js')(server, config, plugins, log);
+  require('./lib/assets.js')(server, config, plugins, log);
 
   return Promise.resolve({ server, config });
 };
