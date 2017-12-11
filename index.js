@@ -1,10 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 'use strict';
-const confi = require('confi');
-const async = require('async');
 const path = require('path');
 const aug = require('aug');
-const util = require('util');
 
 let log = () => {
   // stubbed function
@@ -24,9 +21,6 @@ const requireCwd = (req) => {
 const cwd = process.cwd();
 
 module.exports = async (Hapi, options) => {
-  // if (!options) {
-  //   options = {};
-  // }
   options = aug({}, options, defaults);
   options.configPath = options.configPath || `${cwd}/conf`;
 
