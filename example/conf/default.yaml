@@ -1,7 +1,6 @@
 verbose: true
 connection:
   port: 8080
-configRoute: '/config'
 server:
   debug:
     log: '*'
