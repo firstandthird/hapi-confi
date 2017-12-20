@@ -6,42 +6,31 @@ const options = {
   // tell hapi-confi where to look for config files:
   configPath: `${__dirname}/conf`,
   // tell hapi-confi to print out more info about the setup:
-  verbose: true
+  verbose: true,
+  configRoute: '/config'
 };
 
-// 'server' will be a fully-configured hapi server!
-hapiConfi(Hapi, options, (err, server) => {
-  if (err) {
-    throw err;
-  }
-  server.method('add', (a, b, done) => {
-    done(null, a + b);
-  });
+//   'server' will be a fully-configured hapi server!
+const f = async() => {
+  const { server } = await hapiConfi(Hapi, options);
+  server.method('add', (a, b) => a + b);
   server.route({
     path: '/',
     method: 'get',
-    handler: (request, reply) => {
-      request.server.methods.add(1, 2, reply);
-    }
+    handler: (request, h) => request.server.methods.add(1, 2)
   });
   server.route({
     path: '/1d',
     method: 'get',
-    handler: (request, reply) => {
-      reply(null, request.server.settings.app.oneDay);
-    }
+    handler: (request, h) => request.server.settings.app.oneDay
   });
   server.route({
     path: '/method',
     method: 'get',
-    handler: (request, reply) => {
-      request.server.settings.app.method(1, 2, reply);
-    }
+    handler: (request, h) => request.server.settings.app.method(1, 2)
   });
-  server.start((startErr) => {
-    if (startErr) {
-      throw startErr;
-    }
-    server.log(['server', 'info'], `Server started ${server.info.uri}`);
-  });
-});
+  await server.start();
+  server.log(['server', 'info'], `Server started ${server.info.uri}`);
+};
+
+f();
