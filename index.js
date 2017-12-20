@@ -25,9 +25,6 @@ const requireCwd = (req) => {
 const cwd = process.cwd();
 
 module.exports = async (Hapi, options) => {
-  // if (!options) {
-  //   options = {};
-  // }
   options = aug({}, defaults, options);
   options.configPath = options.configPath || `${cwd}/conf`;
 
