@@ -11,7 +11,8 @@ let log = () => {
 };
 
 const defaults = {
-  verbose: false
+  verbose: false,
+  configRoute: false
 };
 
 const requireCwd = (req) => {
@@ -27,7 +28,7 @@ module.exports = async (Hapi, options) => {
   // if (!options) {
   //   options = {};
   // }
-  options = aug({}, options, defaults);
+  options = aug({}, defaults, options);
   options.configPath = options.configPath || `${cwd}/conf`;
 
   let _server = null;
@@ -56,6 +57,14 @@ module.exports = async (Hapi, options) => {
       server.log(tags, msg);
     };
   }
+  // if a configRoute is specified let client access the server config:
+  if (typeof options.configRoute === 'string') {
+    server.route({
+      method: 'get',
+      path: options.configRoute,
+      handler: (request, h) => server.settings.app
+    });
+  }
 
   // any 'beforeHooks':
   await require('./lib/beforeHook')(server, config, options);
@@ -69,6 +78,5 @@ module.exports = async (Hapi, options) => {
 
   // register all asset routes:
   require('./lib/assets.js')(server, config, plugins, log);
-
   return Promise.resolve({ server, config });
 };

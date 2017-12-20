@@ -1,18 +1,14 @@
 verbose: true
 connection:
   port: 8080
-
+configRoute: '/config'
 server:
   debug:
     log: '*'
 plugins:
   vision:
   hapi-nonexistent: false
-  hapi-disabled: 
+  hapi-disabled:
     _enabled: false
-  hapi-views:
-  hapi-favicon:
-    _priority: -1
-
 method: '{{serverMethod("add")}}'
 oneDay: '{{ms("1d")}}'
