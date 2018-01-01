@@ -25,8 +25,9 @@ lab.test('tests multiple paths ', async() => {
 
 lab.test('test dev ', async () => {
   const { server, config } = await hapiconfi(Hapi, { configPath: [`${__dirname}/conf`] });
+  console.log(config)
   code.expect(server.settings.app.analytics.profile).to.equal('ga-xxx');
-  code.expect(server.settings.app.analytics.enabled).to.equal(false);
+  code.expect(server.settings.app.analytics.enabled).to.equal(true);
   code.expect(server.settings.app.testDefault).to.equal(123456);
   code.expect(server.settings.app.testDefault2).to.equal('localhost');
   code.expect(server.settings.app.testDefault3).to.equal(123456);
@@ -56,4 +57,25 @@ lab.test('returns error if it cannot parse any config file ', async() => {
     code.expect(typeof err).to.equal('object');
     code.expect(err.message).to.equal('Unable to parse file default.yaml');
   }
+});
+
+lab.test('loads plugins in order of dependencies ', (done) => {
+  hapiconfi(Hapi, { env: 'broke', configPath: `${__dirname}/conf_plugins` }, (err, server) => {
+    console.log('---------------------------')
+    console.log(err)
+    console.log(server)
+    // the 'broke' config has the wrong dependency order and will crash:
+    code.expect(err).to.not.equal(null);
+    done();
+  });
+});
+
+lab.test('logs to console if it sees the deprecated "_priority" field ', (done) => {
+  hapiconfi(Hapi, { env: 'report', configPath: `${__dirname}/conf_plugins` }, (err, server) => {
+    console.log('---------------------------')
+    console.log(err)
+    console.log(server)
+    code.expect(err).to.equal(null);
+    done();
+  });
 });
