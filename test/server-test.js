@@ -49,3 +49,15 @@ lab.test('loads plugins in order of dependencies ', async() => {
   const { server } = await hapiconfi(Hapi, { env: 'depend', configPath: `${__dirname}/dependencies` });
   code.expect(server.settings.app.order).to.equal('after'); // will load the dependent plugin second
 });
+
+lab.test('notifies if deprecated _priority field still used', async() => {
+  const oldLog = console.log;
+  const results = [];
+  console.log = (input) => {
+    results.push(input);
+  };
+  const { server } = await hapiconfi(Hapi, { env: 'depend', configPath: `${__dirname}/dependencies` });
+  console.log = oldLog;
+  code.expect(results.length).to.equal(1);
+  code.expect(results[0]).to.include('field used by ./test/loadMeBefore.js is deprecated');
+});
