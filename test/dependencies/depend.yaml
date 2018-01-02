@@ -2,6 +2,7 @@ plugins:
   './test/plugins/loadMeSecond.js':
     option1: '2'
     _dependencies:
+      - './test/plugins/loadMeFirst.js'
   './test/plugins/loadMeAfter.js':
     option1: '1'
     _dependencies:
