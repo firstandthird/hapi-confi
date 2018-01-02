@@ -1,5 +1,5 @@
-## hapi-confi  
-[![Build Status](https://travis-ci.org/firstandthird/hapi-confi.svg?branch=master)](https://travis-ci.org/firstandthird/hapi-confi)
+## hapi-confi  [![Build Status](https://travis-ci.org/firstandthird/hapi-confi.svg?branch=master)](https://travis-ci.org/firstandthird/hapi-confi) [![Coverage Status](https://coveralls.io/repos/github/firstandthird/hapi-confi/badge.svg?branch=master)](https://coveralls.io/github/firstandthird/hapi-confi?branch=master)
+
 
   Set up and run a hapi server using yaml/json files from a config directory
 
