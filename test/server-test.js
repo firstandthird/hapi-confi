@@ -3,7 +3,7 @@ const hapiconfi = require('../');
 const Hapi = require('hapi');
 const code = require('code');
 const lab = exports.lab = require('lab').script();
-/*
+
 lab.test('test server is initialized ', async () => {
   const { server, config } = await hapiconfi(Hapi, { configPath: `${__dirname}/conf` });
   await server.start();
@@ -46,17 +46,6 @@ lab.test('test server can load vision view engine ', async() => {
 });
 
 lab.test('loads plugins in order of dependencies ', async() => {
-  try {
-    const { server, config } = await hapiconfi(Hapi, { env: 'broke', configPath: `${__dirname}/conf_plugins` });
-    // the 'broke' config has the wrong dependency order and will crash:
-  } catch (err) {
-    console.log('---------------------------')
-    console.log(err)
-    code.expect(err).to.not.equal(null);
-  }
-});
-*/
-lab.test('logs to console if it sees the deprecated "_priority" field ', async() => {
-  const { server, config } = await hapiconfi(Hapi, { env: 'report', configPath: `${__dirname}/conf_plugins` });
-  done();
+  const { server } = await hapiconfi(Hapi, { env: 'depend', configPath: `${__dirname}/dependencies` });
+  code.expect(server.settings.app.order).to.equal('after'); // will load the dependent plugin second
 });

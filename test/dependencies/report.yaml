@@ -1,3 +1,0 @@
-plugins:
-  hapi-password:
-    _priority: -11

@@ -26,7 +26,7 @@ lab.test('tests multiple paths ', async() => {
 lab.test('test dev ', async () => {
   const { server, config } = await hapiconfi(Hapi, { configPath: [`${__dirname}/conf`] });
   code.expect(server.settings.app.analytics.profile).to.equal('ga-xxx');
-  code.expect(server.settings.app.analytics.enabled).to.equal(true);
+  code.expect(server.settings.app.analytics.enabled).to.equal(false);
   code.expect(server.settings.app.testDefault).to.equal(123456);
   code.expect(server.settings.app.testDefault2).to.equal('localhost');
   code.expect(server.settings.app.testDefault3).to.equal(123456);

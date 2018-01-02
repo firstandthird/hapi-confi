@@ -1,0 +1,7 @@
+plugins:
+  './test/loadMeAfter.js':
+    option1: '1'
+    _dependencies:
+      - './test/loadMeBefore.js'
+  './test/loadMeBefore.js':
+    option1: '2'
