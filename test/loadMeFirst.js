@@ -1,9 +1,9 @@
 const register = (server, options) => {
-  server.settings.app.order.push(3);
+  server.settings.app.order = [1];
 };
 
 exports.plugin = {
-  name: 'loadMeAfter',
+  name: 'loadMeFirst',
   register,
   once: true,
   pkg: require('../package.json')

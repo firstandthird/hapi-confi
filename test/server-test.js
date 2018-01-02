@@ -47,7 +47,8 @@ lab.test('test server can load vision view engine ', async() => {
 
 lab.test('loads plugins in order of dependencies ', async() => {
   const { server } = await hapiconfi(Hapi, { env: 'depend', configPath: `${__dirname}/dependencies` });
-  code.expect(server.settings.app.order).to.equal('after'); // will load the dependent plugin second
+  code.expect(server.settings.app.order.length).to.equal(3); // make sure we load all 3 plugins
+  code.expect(server.settings.app.order).to.equal([1, 2, 3]); // make sure we load all 3 plugins
 });
 
 lab.test('notifies if deprecated _priority field still used', async() => {
@@ -59,5 +60,5 @@ lab.test('notifies if deprecated _priority field still used', async() => {
   const { server } = await hapiconfi(Hapi, { configPath: `${__dirname}/deprecated` });
   console.log = oldLog;
   code.expect(results.length).to.equal(1);
-  code.expect(results[0]).to.include('field used by ./test/loadMeAfter.js is deprecated');
+  code.expect(results[0]).to.include('field used by ./test/loadMeFirst.js is deprecated');
 });

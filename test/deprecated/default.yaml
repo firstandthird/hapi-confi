@@ -1,3 +1,3 @@
 plugins:
-  './test/loadMeAfter.js':
+  './test/loadMeFirst.js':
     _priority: 2

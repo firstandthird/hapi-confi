@@ -1,7 +1,11 @@
 plugins:
+  './test/loadMeSecond.js':
+    option1: '2'
+    _dependencies:
+      - './test/loadMeFirst.js'
   './test/loadMeAfter.js':
     option1: '1'
     _dependencies:
-      - './test/loadMeBefore.js'
-  './test/loadMeBefore.js':
+      - './test/loadMeSecond.js'
+  './test/loadMeFirst.js':
     option1: '2'
