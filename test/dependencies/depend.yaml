@@ -1,11 +1,10 @@
 plugins:
-  './test/loadMeSecond.js':
+  './test/plugins/loadMeSecond.js':
     option1: '2'
     _dependencies:
-      - './test/loadMeFirst.js'
-  './test/loadMeAfter.js':
+  './test/plugins/loadMeAfter.js':
     option1: '1'
     _dependencies:
-      - './test/loadMeSecond.js'
-  './test/loadMeFirst.js':
+      - './test/plugins/loadMeSecond.js'
+  './test/plugins/loadMeFirst.js':
     option1: '2'

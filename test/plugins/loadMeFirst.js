@@ -6,5 +6,5 @@ exports.plugin = {
   name: 'loadMeFirst',
   register,
   once: true,
-  pkg: require('../package.json')
+  pkg: require('../../package.json')
 };

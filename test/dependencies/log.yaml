@@ -1,3 +1,0 @@
-plugins:
-  './test/loadMeAfter.js':
-    _priority: -10

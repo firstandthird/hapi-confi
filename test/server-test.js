@@ -60,5 +60,5 @@ lab.test('notifies if deprecated _priority field still used', async() => {
   const { server } = await hapiconfi(Hapi, { configPath: `${__dirname}/deprecated` });
   console.log = oldLog;
   code.expect(results.length).to.equal(1);
-  code.expect(results[0]).to.include('field used by ./test/loadMeFirst.js is deprecated');
+  code.expect(results[0]).to.include('field used by ./test/plugins/loadMeFirst.js is deprecated');
 });
