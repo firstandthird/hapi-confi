@@ -47,8 +47,24 @@ lab.test('test server can load vision view engine ', async() => {
 
 lab.test('loads plugins in order of dependencies ', async() => {
   const { server } = await hapiconfi(Hapi, { env: 'depend', configPath: `${__dirname}/dependencies` });
-  code.expect(server.settings.app.order.length).to.equal(3); // make sure we load all 3 plugins
-  code.expect(server.settings.app.order).to.equal([1, 2, 3]); // make sure we load all 3 plugins
+  code.expect(server.settings.app.order.length).to.equal(4); // make sure we load all 3 plugins
+  code.expect(server.settings.app.order).to.equal(['first', 1, 2, 'last']); // make sure we load all 3 plugins
+});
+
+lab.test('handles complex plugin dependencies ', async() => {
+  const { server } = await hapiconfi(Hapi, { env: 'depend', configPath: `${__dirname}/complexDependencies` });
+  code.expect(server.settings.app.order.length).to.equal(5); // make sure we load all 3 plugins
+  code.expect(server.settings.app.order).to.equal(['first', 3, 2, 'last', 1]); // make sure we load all 3 plugins
+});
+
+lab.test('error for circular plugin dependencies ', async() => {
+  try {
+    await hapiconfi(Hapi, { env: 'depend', configPath: `${__dirname}/circularDependencies` });
+  } catch (e) {
+    code.expect(e.toString()).to.include('Circular dependency:');
+    return;
+  }
+  lab.fail();
 });
 
 lab.test('notifies if deprecated _priority field still used', async() => {
