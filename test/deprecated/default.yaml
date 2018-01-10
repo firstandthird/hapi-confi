@@ -1,0 +1,10 @@
+server:
+  debug:
+    log:
+      - 'warning'
+verbose: true
+order:
+  - 'first'
+plugins:
+  './test/plugins/loadMeFirst.js':
+    _priority: 2

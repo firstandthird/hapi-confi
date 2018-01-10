@@ -1,0 +1,12 @@
+order:
+  - 'first'
+plugins:
+  './test/plugins/loadMeSecond.js':
+    _dependencies:
+      - './test/plugins/loadMeFirst.js'
+  './test/plugins/loadMeAfter.js':
+    _dependencies:
+      - './test/plugins/loadMeSecond.js'
+  './test/plugins/loadMeFirst.js':
+    _dependencies:
+      - './test/plugins/loadMeAfter.js'
