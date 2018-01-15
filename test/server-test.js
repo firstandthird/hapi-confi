@@ -85,6 +85,7 @@ lab.test('will log config if env variable DEBUG_CONFI is set', async() => {
   await hapiconfi(Hapi, { env: 'depend', configPath: `${__dirname}/complexDependencies` });
   console.log = oldLog;
   code.expect(results.length).to.equal(1);
-  code.expect(typeof results[0]).to.equal('object');
-  code.expect(Array.isArray(results[0].order)).to.equal(true);
+  const loggedObject = JSON.parse(results[0]);
+  code.expect(typeof loggedObject).to.equal('object');
+  code.expect(Array.isArray(loggedObject.order)).to.equal(true);
 });
