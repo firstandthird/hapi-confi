@@ -74,3 +74,17 @@ lab.test('will throw an error if deprecated _priority field still used', async()
     code.expect(e.toString()).to.include('"_priority" field used by');
   }
 });
+
+lab.test('will log config if env variable DEBUG_CONFI is set', async() => {
+  process.env.DEBUG_CONFI = true;
+  const oldLog = console.log;
+  const results = [];
+  console.log = (input) => {
+    results.push(input);
+  };
+  await hapiconfi(Hapi, { env: 'depend', configPath: `${__dirname}/complexDependencies` });
+  console.log = oldLog;
+  code.expect(results.length).to.equal(1);
+  code.expect(typeof results[0]).to.equal('object');
+  code.expect(Array.isArray(results[0].order)).to.equal(true);
+});
