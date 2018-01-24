@@ -54,6 +54,6 @@ lab.test('returns error if it cannot parse any config file ', async() => {
     const { server, config } = await hapiconfi(Hapi, { configPath: [`${__dirname}/conf`, `${__dirname}/dysfunctional`] });
   } catch (err) {
     code.expect(typeof err).to.equal('object');
-    code.expect(err.message).to.equal('Unable to parse file default.yaml');
+    code.expect(err.toString().startsWith('YAMLException:')).to.equal(true);
   }
 });
