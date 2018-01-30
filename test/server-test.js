@@ -14,6 +14,21 @@ lab.test('cache.enabled will disable cache ', async() => {
   const { server, config } = await hapiconfi(Hapi, { configPath: `${__dirname}/conf4` });
 });
 
+lab.test('registers event types with the server ', async() => {
+  const { server, config } = await hapiconfi(Hapi, { configPath: `${__dirname}/events` });
+  let called = 0;
+  server.events.on('user.register', () => {
+    called++;
+  });
+  server.events.on('user.login', () => {
+    called++;
+  });
+  server.events.emit('user.register');
+  server.events.emit('user.login');
+  await new Promise(resolve => setTimeout(resolve, 500));
+  code.expect(called).to.equal(2);
+});
+
 lab.test('views are configured ', async() => {
   const { server, config } = await hapiconfi(Hapi, { configPath: `${__dirname}/conf` });
   let success = false;

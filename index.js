@@ -45,6 +45,12 @@ module.exports = async (Hapi, options) => {
   // instantiate the server:
   const server = await require('./lib/server.js')(Hapi, config, options, requireCwd);
 
+  // register any event types:
+  if (Array.isArray(config.events)) {
+    config.events.forEach(event => {
+      server.event(event);
+    });
+  }
   // set _server, this is used up above by helpers:
   _server = server;
 
