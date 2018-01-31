@@ -82,6 +82,16 @@ lab.test('error for circular plugin dependencies ', async() => {
   lab.fail();
 });
 
+lab.test('error for broken plugin dependencies ', async() => {
+  try {
+    await hapiconfi(Hapi, { configPath: `${__dirname}/brokenDependency` });
+  } catch (e) {
+    code.expect(e.toString()).to.include('Missing plugin dependency ./test/plugins/bigfoot.js');
+    return;
+  }
+  lab.fail();
+});
+
 lab.test('will throw an error if deprecated _priority field still used', async() => {
   try {
     await hapiconfi(Hapi, { configPath: `${__dirname}/deprecated` });
