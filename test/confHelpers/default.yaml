@@ -1,0 +1,2 @@
+method: '{{serverMethod("add")}}'
+nestedMethod: '{{serverMethod("nested.add")}}'
