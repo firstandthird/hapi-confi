@@ -4,8 +4,7 @@ const confi = require('confi');
 const async = require('async');
 const path = require('path');
 const aug = require('aug');
-const util = require('util');
-
+const get = require('lodash.get');
 let log = () => {
   // stubbed function
 };
@@ -34,7 +33,7 @@ module.exports = async (Hapi, options) => {
   const helpers = {
     serverMethod(name) {
       return function(...args) {
-        return _server.methods[name].apply(_server, args);
+        return get(_server.methods, name).apply(_server, args);
       };
     }
   };

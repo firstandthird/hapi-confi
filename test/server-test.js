@@ -104,3 +104,14 @@ lab.test('will log config if env variable DEBUG_CONFI is set', async() => {
   code.expect(typeof loggedObject).to.equal('object');
   code.expect(Array.isArray(loggedObject.order)).to.equal(true);
 });
+
+lab.test('serverMethod helper can find server.methods at any level', async() => {
+  const { server, config } = await hapiconfi(Hapi, { configPath: `${__dirname}/confHelpers` });
+  let called = 0;
+  server.method('add', a => { called += a; });
+  server.method('nested.add', a => { called += a; });
+  config.method(1);
+  code.expect(called).to.equal(1);
+  config.nestedMethod(1);
+  code.expect(called).to.equal(2);
+});
