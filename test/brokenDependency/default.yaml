@@ -1,0 +1,6 @@
+order:
+  - 'first'
+plugins:
+  './test/plugins/loadMeFirst.js':
+    _dependencies:
+      - './test/plugins/bigfoot.js'
