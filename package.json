@@ -4,7 +4,7 @@
   "description": "Set up hapi from a config file",
   "main": "index.js",
   "scripts": {
-    "test": "lab -e \"\" test --leaks",
+    "test": "tap test --cov",
     "example": "node example/index.js",
     "lint": "eslint ."
   },
@@ -24,20 +24,21 @@
   },
   "homepage": "https://github.com/firstandthird/hapi-confi#readme",
   "dependencies": {
-    "async": "^2.5.0",
-    "aug": "^2.0.0",
-    "confi": "^9.2.1",
+    "aug": "^2.0.1",
+    "confi": "^9.5.0",
     "deptree": "^1.0.0",
+    "inert": "^5.1.0",
     "lodash.get": "^4.4.2"
   },
   "devDependencies": {
     "code": "^5.1.2",
-    "eslint": "^4.9.0",
-    "eslint-config-firstandthird": "^4.0.1",
-    "eslint-plugin-import": "^2.7.0",
-    "handlebars": "^4.0.5",
-    "hapi": "^17.0.1",
+    "eslint": "^5.5.0",
+    "eslint-config-firstandthird": "^4.3.0",
+    "eslint-plugin-import": "^2.14.0",
+    "handlebars": "^4.0.12",
+    "hapi": "^17.5.4",
     "lab": "^15.1.2",
-    "vision": "^5.3.0"
+    "tap": "^12.0.1",
+    "vision": "^5.4.0"
   }
 }

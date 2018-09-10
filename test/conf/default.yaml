@@ -18,8 +18,8 @@ logging:
         log: '*'
 authPlugins:
   hapi-auth-cookie:
-
 plugins:
+  inert:
   vision:
 views:
   engines:

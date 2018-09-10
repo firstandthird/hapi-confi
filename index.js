@@ -1,7 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 'use strict';
 const confi = require('confi');
-const async = require('async');
 const path = require('path');
 const aug = require('aug');
 const get = require('lodash.get');
@@ -10,8 +9,7 @@ let log = () => {
 };
 
 const defaults = {
-  verbose: false,
-  configRoute: false
+  verbose: false
 };
 
 const requireCwd = (req) => {
@@ -59,26 +57,14 @@ module.exports = async (Hapi, options) => {
       server.log(tags, msg);
     };
   }
-  // if a configRoute is specified let client access the server config:
-  if (typeof options.configRoute === 'string') {
-    server.route({
-      method: 'get',
-      path: options.configRoute,
-      handler: (request, h) => server.settings.app
-    });
-  }
-
-  // any 'beforeHooks':
-  await require('./lib/beforeHook')(server, config, options);
 
   // register all plugins:
   const plugins = await require('./lib/plugins.js')(server, config, log, requireCwd);
 
   // register all views:
-  require('./lib/views.js')(server, config, plugins, requireCwd);
-  log(['hapi-confi'], { message: 'views configured' });
+  require('./lib/views.js')(server, config, plugins, requireCwd, log);
 
   // register all asset routes:
   require('./lib/assets.js')(server, config, plugins, log);
-  return Promise.resolve({ server, config });
+  return { server, config };
 };

@@ -1,59 +1,73 @@
-'use strict';
+const tap = require('tap');
 const hapiconfi = require('../index.js');
 const Hapi = require('hapi');
-const code = require('code');
-const lab = exports.lab = require('lab').script();
 
-lab.test('tests default ', async () => {
+tap.test('tests default ', async (t) => {
   const { server, config } = await hapiconfi(Hapi, { configPath: `${__dirname}/conf` });
-  code.expect(server.settings.app.blah).to.equal(true);
-  code.expect(server.settings.app.math1).to.equal(50);
-  code.expect(server.settings.app.multiple).to.equal(undefined);
+  t.equal(server.settings.app.blah, true);
+  t.equal(server.settings.app.math1, 50);
+  t.equal(server.settings.app.multiple, undefined);
+  t.end();
 });
 
-lab.test('tests default with context', async () => {
+tap.test('tests default with context', async (t) => {
   const { server, config } = await hapiconfi(Hapi, { configPath: `${__dirname}/conf`, config: { blah: 'hoover' } });
-  code.expect(server.settings.app.blah).to.equal('hoover');
-  code.expect(server.settings.app.math1).to.equal(50);
-  code.expect(server.settings.app.multiple).to.equal(undefined);
+  t.equal(server.settings.app.blah, 'hoover');
+  t.equal(server.settings.app.math1, 50);
+  return t.equal(server.settings.app.multiple, undefined);
 });
 
-lab.test('tests multiple paths ', async() => {
+tap.test('tests multiple paths ', async(t) => {
   const { server, config } = await hapiconfi(Hapi, { configPath: [`${__dirname}/conf`, `${__dirname}/conf2`] });
-  code.expect(server.settings.app.multiple).to.equal(true);
+  t.equal(server.settings.app.multiple, true);
 });
 
-lab.test('test dev ', async () => {
+tap.test('test dev ', async (t) => {
   const { server, config } = await hapiconfi(Hapi, { configPath: [`${__dirname}/conf`] });
-  code.expect(server.settings.app.analytics.profile).to.equal('ga-xxx');
-  code.expect(server.settings.app.analytics.enabled).to.equal(false);
-  code.expect(server.settings.app.testDefault).to.equal(123456);
-  code.expect(server.settings.app.testDefault2).to.equal('localhost');
-  code.expect(server.settings.app.testDefault3).to.equal(123456);
-  code.expect(server.settings.app.isTest).to.equal(true);
-  code.expect(server.settings.app.testHost).to.equal('localhost/test/path');
-  code.expect(server.settings.app.apikey).to.equal('asdfasdf');
+  t.equal(server.settings.app.analytics.profile, 'ga-xxx');
+  t.equal(server.settings.app.analytics.enabled, false);
+  t.equal(server.settings.app.testDefault, 123456);
+  t.equal(server.settings.app.testDefault2, 'localhost');
+  t.equal(server.settings.app.testDefault3, 123456);
+  t.equal(server.settings.app.isTest, true);
+  t.equal(server.settings.app.testHost, 'localhost/test/path');
+  t.equal(server.settings.app.apikey, 'asdfasdf');
 });
 
-lab.test('test prod ', async() => {
+tap.test('test prod ', async(t) => {
   const { server, config } = await hapiconfi(Hapi, { env: 'production', configPath: [`${__dirname}/conf`] });
-  code.expect(server.settings.app.analytics.enabled).to.equal(true);
-  code.expect(server.settings.app.analytics.profile).to.equal('ga-xxx');
-  code.expect(server.settings.app.host).to.equal('prod');
-  code.expect(config.env).to.equal('production');
+  t.equal(server.settings.app.analytics.enabled, true);
+  t.equal(server.settings.app.analytics.profile, 'ga-xxx');
+  t.equal(server.settings.app.host, 'prod');
+  t.equal(config.env, 'production');
 });
 
-lab.test('test yaml', async() => {
+tap.test('test yaml', async(t) => {
   const { server, config } = await hapiconfi(Hapi, { env: 'yaml', configPath: [`${__dirname}/conf`] });
-  code.expect(server.settings.app.analytics.enabled).to.equal(true);
-  code.expect(server.settings.app.yaml).to.equal(true);
+  t.equal(server.settings.app.analytics.enabled, true);
+  t.equal(server.settings.app.yaml, true);
 });
 
-lab.test('returns error if it cannot parse any config file ', async() => {
+tap.test('returns error if it cannot parse any config file ', async(t) => {
   try {
     const { server, config } = await hapiconfi(Hapi, { configPath: [`${__dirname}/conf`, `${__dirname}/dysfunctional`] });
   } catch (err) {
-    code.expect(typeof err).to.equal('object');
-    code.expect(err.toString().startsWith('YAMLException:')).to.equal(true);
+    t.equal(typeof err, 'object');
+    t.match(err.toString(), 'YAMLException:');
   }
+});
+
+tap.test('tests assets', async (t) => {
+  const { server, config } = await hapiconfi(Hapi, { configPath: `${__dirname}/conf`, config: {
+    routePrefix: '/api',
+    assets: {
+      endpoint: '/blah',
+      path: __dirname
+    }
+  } });
+  const res = await server.inject({
+    method: 'get',
+    url: '/api/blah/server-test.js'
+  });
+  t.match(res.payload, 'tap.test');
 });
