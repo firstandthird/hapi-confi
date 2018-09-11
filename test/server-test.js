@@ -13,7 +13,7 @@ tap.test('cache.enabled will disable cache ', async(t) => {
 });
 
 tap.test('registers event types with the server ', async(t) => {
-  const { server, config } = await hapiconfi(Hapi, { configPath: `${__dirname}/events` });
+  const { server, config } = await hapiconfi(Hapi, { verbose: true, configPath: `${__dirname}/events` });
   let called = 0;
   server.events.on('user.register', () => {
     called++;

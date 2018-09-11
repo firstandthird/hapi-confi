@@ -1,3 +1,7 @@
+server:
+  debug:
+    - 'hapi-confi'
+verbose: true
 events:
   - 'user.register'
   - 'user.login'

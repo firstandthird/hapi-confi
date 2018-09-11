@@ -57,7 +57,10 @@ module.exports = async (Hapi, options) => {
       server.log(tags, msg);
     };
   }
-
+  // log registered events:
+  if (Array.isArray(config.events)) {
+    log(['hapi-confi'], config.events.join(','));
+  }
   // register all plugins:
   const plugins = await require('./lib/plugins.js')(server, config, log, requireCwd);
 
