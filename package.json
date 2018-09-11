@@ -27,17 +27,15 @@
     "aug": "^2.0.1",
     "confi": "^9.5.0",
     "deptree": "^1.0.0",
-    "inert": "^5.1.0",
     "lodash.get": "^4.4.2"
   },
   "devDependencies": {
-    "code": "^5.1.2",
+    "inert": "^5.1.0",
     "eslint": "^5.5.0",
     "eslint-config-firstandthird": "^4.3.0",
     "eslint-plugin-import": "^2.14.0",
     "handlebars": "^4.0.12",
     "hapi": "^17.5.4",
-    "lab": "^15.1.2",
     "tap": "^12.0.1",
     "vision": "^5.4.0"
   }

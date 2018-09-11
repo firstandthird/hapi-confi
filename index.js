@@ -42,12 +42,6 @@ module.exports = async (Hapi, options) => {
   // instantiate the server:
   const server = await require('./lib/server.js')(Hapi, config, options, requireCwd);
 
-  // register any event types:
-  if (Array.isArray(config.events)) {
-    config.events.forEach(event => {
-      server.event(event);
-    });
-  }
   // set _server, this is used up above by helpers:
   _server = server;
 
@@ -57,9 +51,14 @@ module.exports = async (Hapi, options) => {
       server.log(tags, msg);
     };
   }
-  // log registered events:
+
+  // register any event types:
   if (Array.isArray(config.events)) {
-    log(['hapi-confi'], config.events.join(','));
+    config.events.forEach(event => {
+      server.event(event);
+    });
+    // log registered events:
+    log(['hapi-confi', 'registered events'], config.events.join(','));
   }
   // register all plugins:
   const plugins = await require('./lib/plugins.js')(server, config, log, requireCwd);
