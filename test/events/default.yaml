@@ -1,3 +1,4 @@
+verbose: true
 events:
   - 'user.register'
   - 'user.login'

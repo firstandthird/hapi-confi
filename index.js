@@ -1,7 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 'use strict';
 const confi = require('confi');
-const async = require('async');
 const path = require('path');
 const aug = require('aug');
 const get = require('lodash.get');
@@ -10,8 +9,7 @@ let log = () => {
 };
 
 const defaults = {
-  verbose: false,
-  configRoute: false
+  verbose: false
 };
 
 const requireCwd = (req) => {
@@ -44,12 +42,6 @@ module.exports = async (Hapi, options) => {
   // instantiate the server:
   const server = await require('./lib/server.js')(Hapi, config, options, requireCwd);
 
-  // register any event types:
-  if (Array.isArray(config.events)) {
-    config.events.forEach(event => {
-      server.event(event);
-    });
-  }
   // set _server, this is used up above by helpers:
   _server = server;
 
@@ -59,26 +51,22 @@ module.exports = async (Hapi, options) => {
       server.log(tags, msg);
     };
   }
-  // if a configRoute is specified let client access the server config:
-  if (typeof options.configRoute === 'string') {
-    server.route({
-      method: 'get',
-      path: options.configRoute,
-      handler: (request, h) => server.settings.app
+
+  // register any event types:
+  if (Array.isArray(config.events)) {
+    config.events.forEach(event => {
+      server.event(event);
     });
+    // log registered events:
+    log(['hapi-confi'], `Hapi-confi has registered event handlers for the following events: ${config.events.join(',')}`);
   }
-
-  // any 'beforeHooks':
-  await require('./lib/beforeHook')(server, config, options);
-
   // register all plugins:
   const plugins = await require('./lib/plugins.js')(server, config, log, requireCwd);
 
   // register all views:
-  require('./lib/views.js')(server, config, plugins, requireCwd);
-  log(['hapi-confi'], { message: 'views configured' });
+  require('./lib/views.js')(server, config, plugins, requireCwd, log);
 
   // register all asset routes:
   require('./lib/assets.js')(server, config, plugins, log);
-  return Promise.resolve({ server, config });
+  return { server, config };
 };

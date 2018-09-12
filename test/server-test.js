@@ -1,21 +1,19 @@
-'use strict';
-const hapiconfi = require('../');
+const tap = require('tap');
+const hapiconfi = require('../index.js');
 const Hapi = require('hapi');
-const code = require('code');
-const lab = exports.lab = require('lab').script();
 
-lab.test('test server is initialized ', async () => {
+tap.test('test server is initialized ', async () => {
   const { server, config } = await hapiconfi(Hapi, { configPath: `${__dirname}/conf` });
   await server.start();
   await server.stop();
 });
 
-lab.test('cache.enabled will disable cache ', async() => {
+tap.test('cache.enabled will disable cache ', async(t) => {
   const { server, config } = await hapiconfi(Hapi, { configPath: `${__dirname}/conf4` });
 });
 
-lab.test('registers event types with the server ', async() => {
-  const { server, config } = await hapiconfi(Hapi, { configPath: `${__dirname}/events` });
+tap.test('registers event types with the server ', async(t) => {
+  const { server, config } = await hapiconfi(Hapi, { verbose: true, configPath: `${__dirname}/events` });
   let called = 0;
   server.events.on('user.register', () => {
     called++;
@@ -26,10 +24,10 @@ lab.test('registers event types with the server ', async() => {
   server.events.emit('user.register');
   server.events.emit('user.login');
   await new Promise(resolve => setTimeout(resolve, 500));
-  code.expect(called).to.equal(2);
+  return t.equal(called, 2);
 });
 
-lab.test('views are configured ', async() => {
+tap.test('views are configured ', async(t) => {
   const { server, config } = await hapiconfi(Hapi, { configPath: `${__dirname}/conf` });
   let success = false;
   try {
@@ -41,10 +39,10 @@ lab.test('views are configured ', async() => {
   } catch (exc) {
     success = true;
   }
-  code.expect(success).to.equal(true);
+  return t.equal(success, true);
 });
 
-lab.test('test server can load vision view engine ', async() => {
+tap.test('test server can load vision view engine ', async(t) => {
   const { server, config } = await hapiconfi(Hapi, { configPath: `${__dirname}/conf3` });
   let success = false;
   try {
@@ -56,62 +54,62 @@ lab.test('test server can load vision view engine ', async() => {
   } catch (exc) {
     success = true;
   }
-  code.expect(success).to.equal(true);
-  code.expect(server.registrations.vision).to.not.equal(undefined);
+  t.equal(success, true);
+  return t.notEqual(server.registrations.vision, undefined);
 });
 
-lab.test('loads plugins in order of dependencies ', async() => {
+tap.test('loads plugins in order of dependencies ', async(t) => {
   const { server } = await hapiconfi(Hapi, { env: 'depend', configPath: `${__dirname}/dependencies` });
-  code.expect(server.settings.app.order.length).to.equal(4); // make sure we load all 3 plugins
-  code.expect(server.settings.app.order).to.equal(['first', 1, 2, 'last']); // make sure we load all 3 plugins
+  t.equal(server.settings.app.order.length, 4); // make sure we load all 3 plugins
+  return t.match(server.settings.app.order, ['first', 1, 2, 'last']);
 });
 
-lab.test('handles complex plugin dependencies ', async() => {
+tap.test('handles complex plugin dependencies ', async(t) => {
   const { server } = await hapiconfi(Hapi, { env: 'depend', configPath: `${__dirname}/complexDependencies` });
-  code.expect(server.settings.app.order.length).to.equal(5); // make sure we load all 3 plugins
-  code.expect(server.settings.app.order).to.equal(['first', 3, 2, 'last', 1]); // make sure we load all 3 plugins
+  t.equal(server.settings.app.order.length, 5); // make sure we load all 3 plugins
+  return t.match(server.settings.app.order, ['first', 3, 2, 'last', 1]);
 });
 
-lab.test('error for circular plugin dependencies ', async() => {
+tap.test('error for circular plugin dependencies ', async(t) => {
   try {
     await hapiconfi(Hapi, { env: 'depend', configPath: `${__dirname}/circularDependencies` });
   } catch (e) {
-    code.expect(e.toString()).to.include('Circular dependency:');
+    t.match(e.toString(), 'Circular dependency:');
     return;
   }
-  lab.fail();
+  t.fail();
 });
 
-lab.test('will throw an error if deprecated _priority field still used', async() => {
+tap.test('will throw an error if deprecated _priority field still used', async(t) => {
   try {
     await hapiconfi(Hapi, { configPath: `${__dirname}/deprecated` });
   } catch (e) {
-    code.expect(e.toString()).to.include('"_priority" field used by');
+    t.match(e.toString(), '"_priority" field used by');
   }
 });
 
-lab.test('will log config if env variable DEBUG_CONFI is set', async() => {
+tap.test('will log config if env variable DEBUG_CONFI is set', async(t) => {
   process.env.DEBUG_CONFI = true;
   const oldLog = console.log;
   const results = [];
   console.log = (input) => {
-    results.push(input);
+    return results.push(input);
   };
   await hapiconfi(Hapi, { env: 'depend', configPath: `${__dirname}/complexDependencies` });
   console.log = oldLog;
-  code.expect(results.length).to.equal(1);
+  t.equal(results.length, 1);
   const loggedObject = JSON.parse(results[0]);
-  code.expect(typeof loggedObject).to.equal('object');
-  code.expect(Array.isArray(loggedObject.order)).to.equal(true);
+  t.equal(typeof loggedObject, 'object');
+  t.equal(Array.isArray(loggedObject.order), true);
 });
 
-lab.test('serverMethod helper can find server.methods at any level', async() => {
+tap.test('serverMethod helper can find server.methods at any level', async(t) => {
   const { server, config } = await hapiconfi(Hapi, { configPath: `${__dirname}/confHelpers` });
   let called = 0;
   server.method('add', a => { called += a; });
   server.method('nested.add', a => { called += a; });
   config.method(1);
-  code.expect(called).to.equal(1);
+  t.equal(called, 1);
   config.nestedMethod(1);
-  code.expect(called).to.equal(2);
+  t.equal(called, 2);
 });

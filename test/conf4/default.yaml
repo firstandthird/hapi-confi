@@ -1,3 +1,4 @@
+routePrefix: true
 multiple: true
 cache:
   enabled: false
