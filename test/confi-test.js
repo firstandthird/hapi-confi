@@ -3,10 +3,19 @@ const hapiconfi = require('../index.js');
 const Hapi = require('hapi');
 
 tap.test('tests default ', async (t) => {
+  process.env.PORT = 8080;
   const { server, config } = await hapiconfi(Hapi, { configPath: `${__dirname}/conf` });
+  t.equal(server.info.port, 8080, 'by default port is set to env.PORT');
   t.equal(server.settings.app.blah, true);
   t.equal(server.settings.app.math1, 50);
   t.equal(server.settings.app.multiple, undefined);
+  t.end();
+});
+
+tap.test('portOverride lets you override default listening port ', async (t) => {
+  process.env.PORT = 8080;
+  const { server, config } = await hapiconfi(Hapi, { portOverride: 9000, configPath: `${__dirname}/conf` });
+  t.equal(server.info.port, 9000);
   t.end();
 });
 
