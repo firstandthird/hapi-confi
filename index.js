@@ -10,7 +10,7 @@ let log = () => {
 
 const defaults = {
   verbose: false,
-  portOverride: false
+  usePortEnv: true
 };
 
 const requireCwd = (req) => {
