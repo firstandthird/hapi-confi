@@ -9,7 +9,8 @@ let log = () => {
 };
 
 const defaults = {
-  verbose: false
+  verbose: false,
+  usePortEnv: true
 };
 
 const requireCwd = (req) => {
