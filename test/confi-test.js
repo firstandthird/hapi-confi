@@ -1,6 +1,6 @@
 const tap = require('tap');
 const hapiconfi = require('../index.js');
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 
 tap.test('tests default ', async (t) => {
   process.env.PORT = 8080;

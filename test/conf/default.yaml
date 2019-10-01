@@ -19,8 +19,8 @@ logging:
 authPlugins:
   hapi-auth-cookie:
 plugins:
-  inert:
-  vision:
+  '@hapi/inert':
+  '@hapi/vision':
 views:
   engines:
     html: 'handlebars'

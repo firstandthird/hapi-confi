@@ -1,6 +1,6 @@
 const tap = require('tap');
 const hapiconfi = require('../index.js');
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 
 tap.test('test server is initialized ', async () => {
   const { server, config } = await hapiconfi(Hapi, { configPath: `${__dirname}/conf` });
