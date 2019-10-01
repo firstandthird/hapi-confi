@@ -19,7 +19,7 @@ logging:
 authPlugins:
   hapi-auth-cookie:
 plugins:
-  vision:
+  '@hapi/vision':
 views:
   engines:
     html: 'handlebars'
