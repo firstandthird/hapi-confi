@@ -1,6 +1,7 @@
 const tap = require('tap');
 const hapiconfi = require('../index.js');
 const Hapi = require('@hapi/hapi');
+const Joi = require('@hapi/joi');
 
 tap.test('test server is initialized ', async () => {
   const { server, config } = await hapiconfi(Hapi, { configPath: `${__dirname}/conf` });
@@ -55,7 +56,32 @@ tap.test('test server can load vision view engine ', async(t) => {
     success = true;
   }
   t.equal(success, true);
-  return t.notEqual(server.registrations.vision, undefined);
+  return t.notEqual(server.registrations['@hapi/vision'], undefined);
+});
+
+tap.test('can set validator', async (t) => {
+  const { server, config } = await hapiconfi(Hapi, { configPath: `${__dirname}/validator` });
+  let success = false;
+  try {
+    server.route({
+      method: 'GET',
+      path: '/',
+      options: {
+        validate: {
+          query: {
+            test: Joi.string().required()
+          }
+        }
+      },
+      handler(request, h) {
+        return 'Hello World!';
+      }
+    });
+    success = true;
+  } catch (exc) {
+    success = false;
+  }
+  return t.equal(success, true);
 });
 
 tap.test('loads plugins in order of dependencies ', async(t) => {

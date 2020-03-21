@@ -61,6 +61,12 @@ module.exports = async (Hapi, options) => {
     // log registered events:
     log(['hapi-confi'], `Hapi-confi has registered event handlers for the following events: ${config.events.join(',')}`);
   }
+
+  // register a validator
+  if (config.validator) {
+    server.validator(require(config.validator));
+  }
+
   // register all plugins:
   const plugins = await require('./lib/plugins.js')(server, config, log, requireCwd);
 
