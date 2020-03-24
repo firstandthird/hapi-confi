@@ -40,3 +40,4 @@ hapiConfi(Hapi, options, function(err, server, config) {
     - `options` - options to pass when the plugin is registered
  - `views`  - list of view engines to register with hapi.views()
   - `engines` - list of modules to import and pass to view
+ - `validator` - optional validator library for hapi v19+ (usually '@hapi/joi')
